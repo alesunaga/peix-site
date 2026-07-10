@@ -1,0 +1,204 @@
+// PEIx — Site Institucional
+// Schema Prisma — v1.1
+//
+// Referência: Requisitos_Site_PEIx_v1.1 e Arquitetura_Tecnica_Site_PEIx_v1.1
+// Este schema cobre apenas o site institucional (leads, newsletter, blog,
+// diagnóstico e admin). NÃO compartilha banco com o sistema PEIx (produto).
+//
+// Local sugerido no projeto Next.js: prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Leads (RF-LEAD-01 a 07, RN-SITE-01 / RN-LEAD-01)
+// ---------------------------------------------------------------------------
+
+model Lead {
+  id                  String     @id @default(cuid())
+
+  // Campos do formulário de Contato (RF-LEAD-01)
+  nome                String
+  email               String     @unique
+  telefone            String?
+  instituicao         String?
+  cidade              String?
+  uf                  String?
+  cargo               Cargo?
+  segmentos           Segmento[]
+  querDemo            Boolean    @default(false)
+
+  // Rastreio e origem
+  origem              LeadOrigem @default(FORMULARIO)
+  utmSource           String?
+
+  // LGPD (RF-LEAD-03, RNF-05)
+  consentimentoLgpdEm DateTime?
+
+  criadoEm            DateTime   @default(now())
+  atualizadoEm        DateTime   @updatedAt
+
+  diagnosticos        Diagnostico[]
+
+  @@map("leads")
+}
+
+enum Cargo {
+  DIRETOR_PEDAGOGICO
+  MANTENEDOR_DONO
+  COORDENADOR_INCLUSAO
+  PROFESSOR_AEE
+
+  @@map("cargo")
+}
+
+enum Segmento {
+  EDUCACAO_INFANTIL
+  FUNDAMENTAL_1
+  FUNDAMENTAL_2
+  ENSINO_MEDIO
+
+  @@map("segmento")
+}
+
+enum LeadOrigem {
+  FORMULARIO
+  DIAGNOSTICO
+
+  @@map("lead_origem")
+}
+
+// ---------------------------------------------------------------------------
+// Newsletter (RF-BLOG-03 a 06, RN-SITE-02 / RN-SITE-03)
+// ---------------------------------------------------------------------------
+
+model NewsletterSubscriber {
+  id               String             @id @default(cuid())
+  nome             String?
+  email            String             @unique
+
+  // Double opt-in (RF-BLOG-04)
+  status           NewsletterStatus   @default(PENDENTE)
+  tokenConfirmacao String             @unique
+  confirmadoEm     DateTime?
+  descadastradoEm  DateTime?
+
+  criadoEm         DateTime           @default(now())
+
+  @@map("newsletter_subscribers")
+}
+
+enum NewsletterStatus {
+  PENDENTE
+  CONFIRMADO
+  DESCADASTRADO
+
+  @@map("newsletter_status")
+}
+
+// ---------------------------------------------------------------------------
+// Blog (RF-BLOG-01, 02, 07, 08, RN-SITE-04)
+// ---------------------------------------------------------------------------
+
+model Post {
+  id            String           @id @default(cuid())
+  titulo        String
+  slug          String           @unique
+  resumo        String
+  conteudo      String           @db.Text
+  categoria     PostCategoria
+  imagemCapaUrl String?
+  autor         String
+
+  // RN-SITE-04: só status = PUBLICADO fica visível publicamente
+  status        PostStatus       @default(RASCUNHO)
+  publicadoEm   DateTime?
+
+  criadoEm      DateTime         @default(now())
+  atualizadoEm  DateTime         @updatedAt
+
+  envios        NewsletterSend[]
+
+  @@map("posts")
+}
+
+enum PostStatus {
+  RASCUNHO
+  PUBLICADO
+
+  @@map("post_status")
+}
+
+enum PostCategoria {
+  INCLUSAO
+  LEGISLACAO
+  IDEIAS_BOAS_PRATICAS
+  EXPERIENCIAS
+  ENTREVISTAS
+  EVENTOS
+
+  @@map("post_categoria")
+}
+
+// Auditoria de cada disparo em lote de newsletter (RF-BLOG-05)
+model NewsletterSend {
+  id                 String   @id @default(cuid())
+  postId             String
+  post               Post     @relation(fields: [postId], references: [id])
+
+  disparadoEm        DateTime @default(now())
+  totalDestinatarios Int
+  totalSucesso       Int
+  totalFalha         Int
+
+  @@map("envios_newsletter")
+}
+
+// ---------------------------------------------------------------------------
+// Diagnóstico de Conformidade (RF-DIAG-01 a 06, RN-DIAG-01)
+// ---------------------------------------------------------------------------
+
+model Diagnostico {
+  id         String               @id @default(cuid())
+  leadId     String
+  lead       Lead                 @relation(fields: [leadId], references: [id])
+
+  // Respostas brutas do wizard, para auditoria/reavaliação futura de pesos
+  respostas  Json
+
+  // Calculado no servidor a partir das respostas — nunca confiar em valor vindo do cliente
+  pontuacao  Int
+  categoria  DiagnosticoCategoria
+
+  criadoEm   DateTime             @default(now())
+
+  @@map("diagnosticos")
+}
+
+enum DiagnosticoCategoria {
+  INICIANTE
+  EM_TRANSICAO
+  AVANCADA
+
+  @@map("diagnostico_categoria")
+}
+
+// ---------------------------------------------------------------------------
+// Admin (RF-ADMIN-01)
+// ---------------------------------------------------------------------------
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  senhaHash String
+
+  criadoEm  DateTime @default(now())
+
+  @@map("admin_users")
+}

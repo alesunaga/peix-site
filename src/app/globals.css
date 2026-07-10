@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Conceito visual "Aurora" — ver Diretrizes de Prompting - Website PEIx.docx */
+:root {
+  --aurora-bg: #05040f;
+}
+
+body {
+  background-color: var(--aurora-bg);
+  font-family: var(--font-inter), Arial, sans-serif;
+  color: #e5e7eb;
+}
