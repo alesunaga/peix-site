@@ -54,6 +54,7 @@ enum Cargo {
   MANTENEDOR_DONO
   COORDENADOR_INCLUSAO
   PROFESSOR_AEE
+  OUTRO
 
   @@map("cargo")
 }

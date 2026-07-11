@@ -41,6 +41,9 @@ export function Hero() {
             <ButtonLink href="/contato" withArrow>
               Agendar demonstração
             </ButtonLink>
+            <ButtonLink href="/diagnostico" variant="accent" withArrow>
+              Diagnóstico gratuito
+            </ButtonLink>
             <ButtonLink href="/recursos" variant="secondary">
               Explorar recursos
             </ButtonLink>

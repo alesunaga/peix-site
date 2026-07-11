@@ -12,3 +12,18 @@ body {
   font-family: var(--font-inter), Arial, sans-serif;
   color: #e5e7eb;
 }
+
+@layer components {
+  .input {
+    @apply w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none transition-colors focus:border-indigo-400;
+  }
+
+  /* Selects usam bg sólido: o dropdown nativo do navegador não respeita
+     bg translúcido (bg-white/5), então sem isso a lista abre com fundo
+     branco do sistema e o texto claro some. */
+  select.input,
+  select.input option {
+    background-color: #0b0a1f;
+    color: #f1f5f9;
+  }
+}

@@ -64,12 +64,17 @@ npx prisma migrate dev --name init
 npm run dev
 ```
 
-## Status atual (scaffold inicial)
+## Status atual (fim da sessão de 10/07/2026)
 
-- ✅ Schema Prisma completo (`prisma/schema.prisma`)
-- ✅ Rotas de API de Leads e Diagnóstico implementadas (`/api/leads`, `/api/diagnostico`)
+- ✅ Schema Prisma completo (`prisma/schema.prisma`), incluindo `Cargo.OUTRO`
+- ✅ Home, Recursos, Contato e Diagnóstico de Conformidade — construídos e testados de ponta a ponta (visual + banco + e-mails)
+- ✅ Rotas de API de Leads e Diagnóstico implementadas e testadas (`/api/leads`, `/api/diagnostico`)
 - ✅ Templates de e-mail base (confirmação, material, aviso ao representante, newsletter, novo post)
+- ✅ Padrão de e-mail best-effort (`enviarEmailsSemBloquear` em `src/lib/resend.ts`) — falha no envio nunca bloqueia a resposta ao visitante
 - ⬜ Rotas de API de newsletter (subscribe/confirmar/descadastrar) — a implementar
 - ⬜ Rotas de API de posts (CRUD + disparo em lote) — a implementar
-- ⬜ Autenticação do painel admin — a implementar
-- ⬜ UI de todas as páginas (Home, Recursos, Contato, Blog, Diagnóstico, Admin) — a implementar a partir do mockup validado
+- ⬜ Autenticação do painel admin — a implementar (próximo passo sugerido, é a base para o Blog)
+- ⬜ UI do Blog e do painel `/admin` — a implementar
+- ⬜ Domínio `peix.ia.br` — ainda não resolve (DNS pendente) e não verificado no Resend (envios em modo sandbox)
+
+Documentos de referência atualizados: `Requisitos_Site_PEIx_v1.2.md` e `Arquitetura_Tecnica_Site_PEIx_v1.2.md`.

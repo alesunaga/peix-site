@@ -17,6 +17,7 @@ import {
   enviarConfirmacaoLead,
   enviarMaterialInformativo,
   enviarAvisoRepresentante,
+  enviarEmailsSemBloquear,
 } from "@/lib/resend";
 
 const SETE_DIAS_MS = 7 * 24 * 60 * 60 * 1000;
@@ -42,7 +43,7 @@ export async function POST(request: NextRequest) {
     PERGUNTAS.filter((p) => p.id in respostas).map((p) => [p.id, respostas[p.id]]),
   );
 
-  const { pontuacao, pontuacaoMaxima, categoria } = calcularDiagnostico(respostasValidas);
+  const { pontuacao, pontuacaoMaxima, categoria, detalhes } = calcularDiagnostico(respostasValidas);
 
   const leadExistente = await prisma.lead.findUnique({ where: { email } });
   const jaAtualizadoRecentemente =
@@ -71,14 +72,17 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  await Promise.all([enviarConfirmacaoLead(lead), enviarMaterialInformativo(lead)]);
+  await enviarEmailsSemBloquear([
+    () => enviarConfirmacaoLead(lead),
+    () => enviarMaterialInformativo(lead),
+  ]);
 
   if (!jaAtualizadoRecentemente) {
-    await enviarAvisoRepresentante(lead, diagnostico);
+    await enviarEmailsSemBloquear([() => enviarAvisoRepresentante(lead, diagnostico)]);
   }
 
   return NextResponse.json(
-    { pontuacao, pontuacaoMaxima, categoria },
+    { pontuacao, pontuacaoMaxima, categoria, detalhes },
     { status: 201 },
   );
 }

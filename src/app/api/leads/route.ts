@@ -15,6 +15,7 @@ import {
   enviarConfirmacaoLead,
   enviarMaterialInformativo,
   enviarAvisoRepresentante,
+  enviarEmailsSemBloquear,
 } from "@/lib/resend";
 
 const SETE_DIAS_MS = 7 * 24 * 60 * 60 * 1000;
@@ -27,7 +28,7 @@ const leadSchema = z.object({
   cidade: z.string().optional(),
   uf: z.string().length(2).optional(),
   cargo: z
-    .enum(["DIRETOR_PEDAGOGICO", "MANTENEDOR_DONO", "COORDENADOR_INCLUSAO", "PROFESSOR_AEE"])
+    .enum(["DIRETOR_PEDAGOGICO", "MANTENEDOR_DONO", "COORDENADOR_INCLUSAO", "PROFESSOR_AEE", "OUTRO"])
     .optional(),
   segmentos: z
     .array(z.enum(["EDUCACAO_INFANTIL", "FUNDAMENTAL_1", "FUNDAMENTAL_2", "ENSINO_MEDIO"]))
@@ -66,12 +67,17 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  // RF-LEAD-05/06 — sempre reenvia confirmação + material ao visitante
-  await Promise.all([enviarConfirmacaoLead(lead), enviarMaterialInformativo(lead)]);
+  // RF-LEAD-05/06 — sempre reenvia confirmação + material ao visitante.
+  // E-mail é best-effort: uma falha aqui não deve impedir a resposta de
+  // sucesso, já que o lead já foi gravado no banco.
+  await enviarEmailsSemBloquear([
+    () => enviarConfirmacaoLead(lead),
+    () => enviarMaterialInformativo(lead),
+  ]);
 
   // RN-LEAD-01 — só avisa o representante se for lead novo ou "esfriado" (>7 dias)
   if (!jaAtualizadoRecentemente) {
-    await enviarAvisoRepresentante(lead, null);
+    await enviarEmailsSemBloquear([() => enviarAvisoRepresentante(lead, null)]);
   }
 
   return NextResponse.json({ ok: true }, { status: 201 });

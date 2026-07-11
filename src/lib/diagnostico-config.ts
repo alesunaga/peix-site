@@ -19,6 +19,10 @@ export type DiagnosticoPergunta = {
   id: string;
   texto: string;
   opcoes: DiagnosticoOpcao[];
+  // Usado no resultado: por que essa dimensão importa quando a escola vai bem,
+  // e o risco concreto quando a resposta não pontua no máximo.
+  importancia: string;
+  risco: string;
 };
 
 export const PERGUNTAS: DiagnosticoPergunta[] = [
@@ -30,6 +34,10 @@ export const PERGUNTAS: DiagnosticoPergunta[] = [
       { valor: "informal", texto: "Fazemos, mas de forma informal (Word/papel)", pontos: 1 },
       { valor: "estruturado", texto: "Sim, com seções e metas definidas", pontos: 3 },
     ],
+    importancia:
+      "Um PEI estruturado, com metas e seções definidas, é a base para comprovar conformidade com o Decreto nº 12.773/2025 em qualquer fiscalização.",
+    risco:
+      "Sem um PEI formal, a escola não tem como comprovar que atende cada aluno de forma individualizada — exigência direta da LBI e do Decreto.",
   },
   {
     id: "registro_adaptacoes",
@@ -40,6 +48,10 @@ export const PERGUNTAS: DiagnosticoPergunta[] = [
       { valor: "planilha", texto: "Em planilhas ou documentos compartilhados", pontos: 2 },
       { valor: "sistema", texto: "Em um sistema com histórico e versionamento", pontos: 3 },
     ],
+    importancia:
+      "Registrar adaptações com histórico e versionamento cria uma trilha de auditoria confiável e protege a escola juridicamente.",
+    risco:
+      "Registros informais (WhatsApp, e-mail, planilhas soltas) se perdem com o tempo e não servem como prova formal caso a escola seja questionada.",
   },
   {
     id: "quantidade_alunos_laudados",
@@ -49,6 +61,10 @@ export const PERGUNTAS: DiagnosticoPergunta[] = [
       { valor: "11_a_30", texto: "11 a 30", pontos: 2 },
       { valor: "mais_de_30", texto: "Mais de 30", pontos: 3 },
     ],
+    importancia:
+      "Quanto maior o número de alunos, maior a necessidade de um processo escalável — o volume por si só já justifica uma ferramenta dedicada.",
+    risco:
+      "Com muitos alunos e processo manual, a equipe corre risco real de sobrecarga e de deixar PEIs desatualizados — motivo comum de autuação em fiscalizações.",
   },
   {
     id: "ferramenta_atual",
@@ -59,10 +75,25 @@ export const PERGUNTAS: DiagnosticoPergunta[] = [
       { valor: "planilha", texto: "Planilhas (Excel/Sheets)", pontos: 2 },
       { valor: "sistema_proprio", texto: "Sistema de gestão próprio ou de terceiros", pontos: 3 },
     ],
+    importancia:
+      "Uma ferramenta com histórico e versionamento automático é o que garante conformidade sem esforço manual extra da equipe.",
+    risco:
+      "Ferramentas genéricas (Word, planilhas) não geram histórico auditável nem escalam — cada revisão vira um arquivo solto, sem rastreabilidade.",
   },
 ];
 
 export type DiagnosticoCategoriaResultado = "INICIANTE" | "EM_TRANSICAO" | "AVANCADA";
+
+export type DetalhePergunta = {
+  perguntaId: string;
+  perguntaTexto: string;
+  pontosObtidos: number;
+  pontosMaximo: number;
+  // true = a resposta escolhida é a melhor opção possível para essa pergunta
+  forte: boolean;
+  importancia: string;
+  risco: string;
+};
 
 const PONTUACAO_MAXIMA = PERGUNTAS.reduce(
   (max, pergunta) => max + Math.max(...pergunta.opcoes.map((o) => o.pontos)),
@@ -70,7 +101,9 @@ const PONTUACAO_MAXIMA = PERGUNTAS.reduce(
 );
 
 /**
- * RF-DIAG-02 — calcula a pontuação a partir das respostas recebidas.
+ * RF-DIAG-02 — calcula a pontuação a partir das respostas recebidas, e monta
+ * o detalhamento por pergunta usado no resultado (o que pesou a favor e o
+ * que ficou como risco — pedido explícito de negócio, não só a nota geral).
  * Sempre roda no servidor (nunca confiar em pontuação vinda do cliente —
  * ver Arquitetura_Tecnica_Site_PEIx_v1.1, §5, item 3).
  */
@@ -78,13 +111,28 @@ export function calcularDiagnostico(respostas: Record<string, string>): {
   pontuacao: number;
   pontuacaoMaxima: number;
   categoria: DiagnosticoCategoriaResultado;
+  detalhes: DetalhePergunta[];
 } {
   let pontuacao = 0;
+  const detalhes: DetalhePergunta[] = [];
 
   for (const pergunta of PERGUNTAS) {
     const respostaId = respostas[pergunta.id];
     const opcao = pergunta.opcoes.find((o) => o.valor === respostaId);
-    if (opcao) pontuacao += opcao.pontos;
+    const pontosObtidos = opcao?.pontos ?? 0;
+    const pontosMaximo = Math.max(...pergunta.opcoes.map((o) => o.pontos));
+
+    pontuacao += pontosObtidos;
+
+    detalhes.push({
+      perguntaId: pergunta.id,
+      perguntaTexto: pergunta.texto,
+      pontosObtidos,
+      pontosMaximo,
+      forte: pontosObtidos === pontosMaximo,
+      importancia: pergunta.importancia,
+      risco: pergunta.risco,
+    });
   }
 
   const proporcao = pontuacao / PONTUACAO_MAXIMA;
@@ -94,5 +142,5 @@ export function calcularDiagnostico(respostas: Record<string, string>): {
   else if (proporcao < 0.75) categoria = "EM_TRANSICAO";
   else categoria = "AVANCADA";
 
-  return { pontuacao, pontuacaoMaxima: PONTUACAO_MAXIMA, categoria };
+  return { pontuacao, pontuacaoMaxima: PONTUACAO_MAXIMA, categoria, detalhes };
 }

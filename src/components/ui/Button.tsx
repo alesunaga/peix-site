@@ -3,13 +3,15 @@ import { ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-type Variant = "primary" | "secondary";
+type Variant = "primary" | "secondary" | "accent";
 
 const styles: Record<Variant, string> = {
   primary:
     "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-950/40",
   secondary:
     "bg-white/5 hover:bg-white/10 text-slate-100 border border-white/10",
+  accent:
+    "bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 text-white shadow-lg shadow-purple-950/40",
 };
 
 const base =
