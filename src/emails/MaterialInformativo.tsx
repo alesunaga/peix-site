@@ -1,6 +1,6 @@
 // src/emails/MaterialInformativo.tsx
-// RF-LEAD-06 — conteúdo do material (PDF/link) ainda a definir pelo time de
-// marketing; este template só estrutura o envio.
+// RF-LEAD-06 — material definido: "Material_Informativo_PEIx_Decreto_12773.pdf",
+// servido estaticamente em public/materiais/decreto-12773.pdf.
 
 type Props = { nome: string };
 

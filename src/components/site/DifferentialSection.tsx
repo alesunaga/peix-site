@@ -17,7 +17,7 @@ const STATS = [
   {
     icon: Zap,
     titulo: "Minutos",
-    texto: "para adaptar uma prova inteira a partir do PEI individual",
+    texto: "para criar atividades, metas, PEI e relatórios personalizados com IA",
   },
 ];
 

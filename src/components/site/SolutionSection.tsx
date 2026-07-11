@@ -16,7 +16,7 @@ const PILARES = [
     tag: "HUB M-07",
     titulo: "Apps de IA para a docência",
     texto:
-      "Adaptador automático de provas por questão, criador de atividades sob medida e gerador de protocolos de conduta — tudo a partir do PEI individual.",
+      "Criação de atividades, metas e PEI, e relatórios personalizados — tudo a partir do PEI individual do aluno.",
   },
   {
     icon: Lock,

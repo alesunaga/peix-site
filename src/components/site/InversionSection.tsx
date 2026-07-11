@@ -10,7 +10,7 @@ const MERCADO_ATUAL = [
 ];
 
 const INVERSAO_PEIX = [
-  "Professor acessa para adaptar uma prova em minutos",
+  "Professor acessa para criar um PEI em minutos",
   "Ganha tempo no planejamento diário",
   "O registro pedagógico acontece como efeito colateral",
   "Conformidade legal sem esforço extra",

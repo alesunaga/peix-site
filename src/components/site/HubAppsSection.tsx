@@ -1,24 +1,25 @@
 // src/components/site/HubAppsSection.tsx
-import { RefreshCw, Wand2, ClipboardCheck } from "lucide-react";
+import { Wand2, Target, ClipboardList } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 
 const APPS = [
-  {
-    icon: RefreshCw,
-    titulo: "Adaptador Automático de Provas",
-    texto:
-      "Adapta questão a questão com base no PEI individual do aluno — nunca em diagnósticos genéricos.",
-  },
   {
     icon: Wand2,
     titulo: "Criador de Atividades Pedagógicas",
     texto: "Gera atividades sob medida, alinhadas às metas e adaptações de cada estudante.",
   },
   {
-    icon: ClipboardCheck,
-    titulo: "Gerador de Protocolos de Conduta",
-    texto: "Cria protocolos de conduta comportamental estruturados e prontos para aplicação.",
+    icon: Target,
+    titulo: "Metas e PEI Assistidos por IA",
+    texto:
+      "Sugere metas SMART e um rascunho inicial do PEI a partir do perfil de aprendizagem do aluno, prontos para revisão do professor.",
+  },
+  {
+    icon: ClipboardList,
+    titulo: "Relatórios Personalizados por IA",
+    texto:
+      "Gera relatórios de acompanhamento individualizados, prontos para compartilhar com a família e a coordenação.",
   },
 ];
 
