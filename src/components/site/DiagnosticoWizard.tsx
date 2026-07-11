@@ -45,6 +45,7 @@ export function DiagnosticoWizard() {
   const [respostas, setRespostas] = useState<Record<string, string>>({});
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
+  const [consentimentoLgpd, setConsentimentoLgpd] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [resultado, setResultado] = useState<Resultado | null>(null);
 
@@ -66,7 +67,7 @@ export function DiagnosticoWizard() {
       const resposta = await fetch("/api/diagnostico", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, email, respostas }),
+        body: JSON.stringify({ nome, email, respostas, consentimentoLgpd }),
       });
       if (!resposta.ok) throw new Error("Falha no envio.");
       const dados: Resultado = await resposta.json();
@@ -166,6 +167,27 @@ export function DiagnosticoWizard() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
+          <label className="flex items-start gap-2 text-xs text-slate-400">
+            <input
+              type="checkbox"
+              checked={consentimentoLgpd}
+              onChange={(e) => setConsentimentoLgpd(e.target.checked)}
+              className="mt-0.5 shrink-0 rounded border-white/20 bg-transparent"
+            />
+            <span>
+              Autorizo o tratamento dos meus dados de acordo com a{" "}
+              <a
+                href="/politica-de-privacidade"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-slate-200"
+              >
+                Política de Privacidade
+              </a>
+              .
+            </span>
+          </label>
         </div>
 
         {status === "erro" && (
@@ -174,7 +196,7 @@ export function DiagnosticoWizard() {
 
         <Button
           onClick={enviarDiagnostico}
-          disabled={!nome || !email || status === "enviando"}
+          disabled={!nome || !email || !consentimentoLgpd || status === "enviando"}
           withArrow
           className="mt-6 w-full sm:w-auto"
         >

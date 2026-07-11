@@ -26,6 +26,9 @@ const diagnosticoSchema = z.object({
   nome: z.string().min(2),
   email: z.string().email(),
   respostas: z.record(z.string(), z.string()),
+  consentimentoLgpd: z.literal(true, {
+    errorMap: () => ({ message: "É necessário aceitar o tratamento de dados (LGPD)." }),
+  }),
 });
 
 export async function POST(request: NextRequest) {
@@ -37,6 +40,8 @@ export async function POST(request: NextRequest) {
   }
 
   const { nome, email, respostas } = parsed.data;
+  // consentimentoLgpd já validado pelo schema (z.literal(true)) — só é
+  // usado para a checagem acima; não precisa ser persistido como campo.
 
   // Garante que só perguntas conhecidas entram no cálculo (RF-DIAG-02)
   const respostasValidas = Object.fromEntries(
