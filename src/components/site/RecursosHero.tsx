@@ -19,7 +19,7 @@ export function RecursosHero() {
         </h1>
         <p className="mt-6 text-lg text-slate-300">
           Um mergulho nas capacidades operacionais do PEIx, das 7 seções legais do
-          PEI ao Hub de Apps de IA (M-07) e à segurança de dados sensíveis.
+          PEI às ferramentas de Inteligência Artificial e à segurança de dados sensíveis.
         </p>
       </div>
     </section>

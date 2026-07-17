@@ -13,10 +13,10 @@ const PILARES = [
   },
   {
     icon: Cpu,
-    tag: "HUB M-07",
-    titulo: "Apps de IA para a docência",
+    tag: "INTELIGÊNCIA ARTIFICIAL",
+    titulo: "IA que apoia o professor no dia a dia",
     texto:
-      "Criação de atividades, metas e PEI, e relatórios personalizados — tudo a partir do PEI individual do aluno.",
+      "Sugestão de metas e atividades, resumo pedagógico de laudos e síntese narrativa de relatórios — tudo a partir do PEI individual do aluno.",
   },
   {
     icon: Lock,

@@ -6,27 +6,27 @@ import { Card } from "@/components/ui/Card";
 const APPS = [
   {
     icon: Wand2,
-    titulo: "Criador de Atividades Pedagógicas",
-    texto: "Gera atividades sob medida, alinhadas às metas e adaptações de cada estudante.",
+    titulo: "Sugestão de Atividades por IA",
+    texto: "Sugere atividades práticas vinculadas a cada meta, a partir do PEI individual do aluno — revisáveis pelo professor antes do uso.",
   },
   {
     icon: Target,
-    titulo: "Metas e PEI Assistidos por IA",
+    titulo: "Metas Sugeridas por IA",
     texto:
-      "Sugere metas SMART e um rascunho inicial do PEI a partir do perfil de aprendizagem do aluno, prontos para revisão do professor.",
+      "Sugere metas SMART a partir do perfil de aprendizagem do aluno, prontas para revisão do professor.",
   },
   {
     icon: ClipboardList,
-    titulo: "Relatórios Personalizados por IA",
+    titulo: "Relatório de Desenvolvimento com Síntese por IA",
     texto:
-      "Gera relatórios de acompanhamento individualizados, prontos para compartilhar com a família e a coordenação.",
+      "Gera a síntese narrativa do Relatório de Desenvolvimento, revisável antes do download, pronta para compartilhar com a família e a coordenação.",
   },
 ];
 
 export function HubAppsSection() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-16">
-      <Eyebrow>Hub de Aplicativos de Inclusão — M-07</Eyebrow>
+      <Eyebrow>Inteligência Artificial</Eyebrow>
       <h2 className="max-w-2xl text-3xl font-bold text-white sm:text-4xl">
         Ferramentas de IA que apoiam a docência
       </h2>

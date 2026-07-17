@@ -10,7 +10,7 @@ import { Footer } from "@/components/site/Footer";
 export const metadata = {
   title: "Recursos — PEIx",
   description:
-    "Detalhamento técnico do PEIx: as 7 seções legais do PEI, o Hub de Apps de IA (M-07) e a segurança de dados sensíveis.",
+    "Detalhamento técnico do PEIx: as 7 seções legais do PEI, as ferramentas de Inteligência Artificial e a segurança de dados sensíveis.",
 };
 
 export default function RecursosPage() {
