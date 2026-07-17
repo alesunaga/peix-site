@@ -94,7 +94,7 @@ function DashboardPreview() {
           <div className="grid grid-cols-2 gap-3">
             <div className="rounded-xl border border-white/10 bg-white/5 p-3">
               <p className="text-lg font-semibold text-white">14</p>
-              <p className="text-xs text-slate-400">Provas adaptadas</p>
+              <p className="text-xs text-slate-400">Atividades geradas</p>
             </div>
             <div className="rounded-xl border border-white/10 bg-white/5 p-3">
               <p className="text-lg font-semibold text-white">37</p>

@@ -15,7 +15,7 @@ const ETAPAS = [
     numero: "02",
     titulo: "A IA adapta o dia a dia",
     texto:
-      "Professores geram provas e atividades adaptadas em minutos, direto do PEI de cada aluno.",
+      "Professores geram metas, atividades adaptadas e relatórios completos em minutos, direto do PEI de cada aluno.",
   },
   {
     icon: LineChart,

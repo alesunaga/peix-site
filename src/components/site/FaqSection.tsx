@@ -22,9 +22,9 @@ const PERGUNTAS = [
       "O PEIx foi desenhado para que o professor ganhe tempo no primeiro dia de uso — a adoção é consequência do valor imediato, não de uma obrigação.",
   },
   {
-    pergunta: "A adaptação de provas é genérica ou individual?",
+    pergunta: "As adaptações geradas pela IA são genéricas ou individuais?",
     resposta:
-      "Individual. O adaptador gera as adaptações questão a questão, a partir do PEI específico de cada aluno — nunca de diagnósticos genéricos.",
+      "Individuais. Atividades, metas e relatórios são gerados a partir do PEI específico de cada aluno — nunca de diagnósticos genéricos.",
   },
   {
     pergunta: "O PEI é obrigatório também em escolas particulares?",
