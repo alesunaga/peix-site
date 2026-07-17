@@ -55,9 +55,18 @@ export function Navbar() {
           )}
         </ul>
 
-        <ButtonLink href="/contato" className="text-sm">
-          Agendar Demo
-        </ButtonLink>
+        <div className="flex items-center gap-2">
+          <ButtonLink
+            href="https://app.peix.ia.br"
+            variant="secondary"
+            className="hidden text-sm sm:inline-flex"
+          >
+            Acessar plataforma
+          </ButtonLink>
+          <ButtonLink href="/contato" className="text-sm">
+            Agendar Demo
+          </ButtonLink>
+        </div>
       </nav>
     </header>
   );
