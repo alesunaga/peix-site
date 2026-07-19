@@ -41,6 +41,9 @@ model Lead {
   // LGPD (RF-LEAD-03, RNF-05)
   consentimentoLgpdEm DateTime?
 
+  // Termos de Uso (RF-SITE-06, RF-DIAG-07, RN-DIAG-02)
+  aceiteTermosUsoEm   DateTime?
+
   criadoEm            DateTime   @default(now())
   atualizadoEm        DateTime   @updatedAt
 

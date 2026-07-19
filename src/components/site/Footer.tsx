@@ -19,6 +19,9 @@ export function Footer() {
           <Link href="/politica-de-privacidade" className="hover:text-white">
             Privacidade
           </Link>
+          <Link href="/termos-de-uso" className="hover:text-white">
+            Termos de Uso
+          </Link>
           <Link href="/contato" className="hover:text-white">
             Contato
           </Link>
