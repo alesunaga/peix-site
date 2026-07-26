@@ -11,7 +11,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { markdownParaHtmlSeguro } from "@/lib/markdown";
-import { POST_CATEGORIA_LABELS } from "@/lib/labels";
+import { PostArticle } from "@/components/site/PostArticle";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
@@ -43,21 +43,13 @@ export default async function PreviewPostPage({
         Este link expira e não aparece nas páginas públicas do blog.
       </div>
 
-      <p className="mb-2 text-xs uppercase tracking-wide text-indigo-400">
-        {POST_CATEGORIA_LABELS[post.categoria] ?? post.categoria}
-      </p>
-      <h1 className="mb-4 text-3xl font-semibold text-white">{post.titulo}</h1>
-      {post.imagemCapaUrl && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={post.imagemCapaUrl}
-          alt=""
-          className="mb-6 w-full rounded-xl border border-white/10"
-        />
-      )}
-      <p className="mb-8 text-slate-400">{post.resumo}</p>
-
-      <div className="post-preview text-slate-200" dangerouslySetInnerHTML={{ __html: html }} />
+      <PostArticle
+        titulo={post.titulo}
+        categoria={post.categoria}
+        resumo={post.resumo}
+        imagemCapaUrl={post.imagemCapaUrl}
+        html={html}
+      />
     </main>
   );
 }

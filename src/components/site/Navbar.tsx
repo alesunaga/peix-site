@@ -10,7 +10,7 @@ type NavItem =
 const LINKS: NavItem[] = [
   { href: "/", label: "Início" },
   { href: "/recursos", label: "Recursos" },
-  { label: "Blog", comingSoon: true },
+  { href: "/blog", label: "Blog" },
   { href: "/contato", label: "Contato" },
 ];
 
