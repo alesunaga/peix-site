@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 type NavItem =
   | { href: string; label: string; comingSoon?: false }
@@ -56,6 +57,7 @@ export function Navbar() {
         </ul>
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <ButtonLink
             href="https://app.peix.ia.br"
             variant="secondary"

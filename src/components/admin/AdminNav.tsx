@@ -10,6 +10,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FileText, Users, Mail, UserCog, LayoutDashboard, LogOut } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const ITENS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -31,9 +32,12 @@ export function AdminNav({ email }: { email: string }) {
 
   return (
     <aside className="flex w-full shrink-0 flex-col border-white/10 bg-white/[0.03] sm:w-60 sm:border-r">
-      <div className="border-b border-white/10 px-5 py-5">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-400">PEIx</p>
-        <p className="text-sm text-slate-300">Painel Admin</p>
+      <div className="flex items-center justify-between gap-2 border-b border-white/10 px-5 py-5">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-400">PEIx</p>
+          <p className="text-sm text-slate-300">Painel Admin</p>
+        </div>
+        <ThemeToggle />
       </div>
 
       <nav className="flex flex-1 flex-col gap-1 p-3">

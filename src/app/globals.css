@@ -51,3 +51,317 @@ body {
   .post-preview hr { @apply my-4 border-white/10; }
   .post-preview img { @apply my-3 max-w-full rounded-lg; }
 }
+
+/* ============================================================
+   MODO DE ALTO CONTRASTE (acessibilidade de cores)
+   Duas variantes opcionais, ativadas via [data-theme] em <html>:
+     - high-contrast-dark  (fundo preto, acento amarelo)
+     - high-contrast-light (fundo branco, acento indigo escuro)
+   Todas as combinações texto/fundo abaixo foram calculadas para
+   atingir WCAG AAA (>= 7:1). Ver Proposta_Modo_Alto_Contraste_Site_PEIx.md
+   Estratégia: em vez de reescrever as classes Tailwind usadas em cada
+   componente, sobrescrevemos aqui as classes já existentes via seletor
+   de atributo ([class~="..."]), com !important. Zero mudança nos
+   arquivos de componente — reduz risco de regressão no tema padrão.
+   ============================================================ */
+
+[data-theme="high-contrast-dark"] {
+  --aurora-bg: #000000;
+  --hc-surface: #0a0a0a;
+  --hc-surface-hover: #1a1a1a;
+  --hc-text: #ffffff;
+  --hc-text-2: #e5e5e5;
+  --hc-text-3: #cccccc;
+  --hc-text-4: #999999;
+  --hc-accent: #ffd60a;
+  --hc-accent-contrast: #000000;
+  --hc-success: #4ade80;
+  --hc-warning: #fbbf24;
+  --hc-error: #f87171;
+  --hc-border: #ffffff;
+}
+
+[data-theme="high-contrast-light"] {
+  --aurora-bg: #ffffff;
+  --hc-surface: #f5f5f5;
+  --hc-surface-hover: #e8e8e8;
+  --hc-text: #000000;
+  --hc-text-2: #333333;
+  --hc-text-3: #4d4d4d;
+  --hc-text-4: #4d4d4d;
+  --hc-accent: #1e3a8a;
+  --hc-accent-contrast: #ffffff;
+  --hc-success: #166534;
+  --hc-warning: #92400e;
+  --hc-error: #991b1b;
+  --hc-border: #000000;
+}
+
+/* Fundos translúcidos (cards, inputs, tags) -> superfície opaca neutra */
+[data-theme^="high-contrast"] [class~="bg-amber-500/10"],
+[data-theme^="high-contrast"] [class~="bg-amber-500/5"],
+[data-theme^="high-contrast"] [class~="bg-emerald-500/10"],
+[data-theme^="high-contrast"] [class~="bg-emerald-500/15"],
+[data-theme^="high-contrast"] [class~="bg-indigo-500/10"],
+[data-theme^="high-contrast"] [class~="bg-indigo-500/5"],
+[data-theme^="high-contrast"] [class~="bg-indigo-600/10"],
+[data-theme^="high-contrast"] [class~="bg-indigo-600/20"],
+[data-theme^="high-contrast"] [class~="bg-red-500/10"],
+[data-theme^="high-contrast"] [class~="bg-red-500/15"],
+[data-theme^="high-contrast"] [class~="bg-white/10"],
+[data-theme^="high-contrast"] [class~="bg-white/5"],
+[data-theme^="high-contrast"] [class~="bg-white/[0.02]"],
+[data-theme^="high-contrast"] [class~="bg-white/[0.03]"] {
+  background-color: var(--hc-surface) !important;
+}
+
+/* Hover em fundos translúcidos -> superfície opaca (leve variação p/ feedback) */
+[data-theme^="high-contrast"] [class~="hover:bg-white/5"]:hover,
+[data-theme^="high-contrast"] [class~="hover:bg-white/10"]:hover,
+[data-theme^="high-contrast"] [class~="hover:bg-white/[0.07]"]:hover,
+[data-theme^="high-contrast"] [class~="hover:bg-indigo-500/10"]:hover {
+  background-color: var(--hc-surface-hover) !important;
+}
+
+/* Navbar (bg arbitrário igual ao fundo da página, sem transparência) */
+[data-theme^="high-contrast"] [class~="bg-[#05040f]"],
+[data-theme^="high-contrast"] [class~="bg-[#05040f]/80"] {
+  background-color: var(--aurora-bg) !important;
+}
+
+/* Remove o blur do glassmorphism (transparência prejudica contraste previsível) */
+[data-theme^="high-contrast"] [class~="backdrop-blur-md"] {
+  backdrop-filter: none !important;
+}
+
+/* Bordas e divisores neutros -> cor sólida de alto contraste */
+[data-theme^="high-contrast"] [class~="border-white/10"],
+[data-theme^="high-contrast"] [class~="border-white/20"],
+[data-theme^="high-contrast"] [class~="border-white/5"] {
+  border-color: var(--hc-border) !important;
+}
+
+/* divide-* (Tailwind aplica borda via combinador de filhos) */
+[data-theme^="high-contrast"] [class~="divide-white/10"] > :not([hidden]) ~ :not([hidden]),
+[data-theme^="high-contrast"] [class~="divide-white/5"] > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--hc-border) !important;
+}
+
+/* Texto de acento (indigo/purple) -> acento de alto contraste */
+[data-theme^="high-contrast"] [class~="text-indigo-200"],
+[data-theme^="high-contrast"] [class~="text-indigo-300"],
+[data-theme^="high-contrast"] [class~="text-indigo-400"],
+[data-theme^="high-contrast"] [class~="text-purple-400"] {
+  color: var(--hc-accent) !important;
+}
+
+/* Hover em texto de acento */
+[data-theme^="high-contrast"] [class~="hover:text-indigo-300"]:hover {
+  color: var(--hc-accent) !important;
+}
+
+/* Borda de acento (indigo) -> acento de alto contraste */
+[data-theme^="high-contrast"] [class~="border-indigo-500/20"],
+[data-theme^="high-contrast"] [class~="border-indigo-500/30"] {
+  border-color: var(--hc-accent) !important;
+}
+
+/* Hover em borda de acento */
+[data-theme^="high-contrast"] [class~="hover:border-indigo-400"]:hover,
+[data-theme^="high-contrast"] [class~="hover:border-indigo-400/40"]:hover {
+  border-color: var(--hc-accent) !important;
+}
+
+/* Texto de aviso (amber) -> cor de aviso de alto contraste */
+[data-theme^="high-contrast"] [class~="text-amber-300"],
+[data-theme^="high-contrast"] [class~="text-amber-400"] {
+  color: var(--hc-warning) !important;
+}
+
+/* Borda de aviso (amber) */
+[data-theme^="high-contrast"] [class~="border-amber-500/20"],
+[data-theme^="high-contrast"] [class~="border-amber-500/30"] {
+  border-color: var(--hc-warning) !important;
+}
+
+/* Indicador sólido de aviso (ex.: ponto de status) */
+[data-theme^="high-contrast"] [class~="bg-yellow-500/70"] {
+  background-color: var(--hc-warning) !important;
+}
+
+/* Texto de sucesso (emerald) -> cor de sucesso de alto contraste */
+[data-theme^="high-contrast"] [class~="text-emerald-300"],
+[data-theme^="high-contrast"] [class~="text-emerald-400"] {
+  color: var(--hc-success) !important;
+}
+
+/* Borda de sucesso (emerald) */
+[data-theme^="high-contrast"] [class~="border-emerald-500/20"] {
+  border-color: var(--hc-success) !important;
+}
+
+/* Indicador sólido de sucesso (ex.: ponto de status) */
+[data-theme^="high-contrast"] [class~="bg-green-500/70"] {
+  background-color: var(--hc-success) !important;
+}
+
+/* Texto de erro (red) -> cor de erro de alto contraste */
+[data-theme^="high-contrast"] [class~="text-red-400"] {
+  color: var(--hc-error) !important;
+}
+
+/* Hover em texto de erro */
+[data-theme^="high-contrast"] [class~="hover:text-red-300"]:hover {
+  color: var(--hc-error) !important;
+}
+
+/* Borda de erro (red) */
+[data-theme^="high-contrast"] [class~="border-red-500/20"] {
+  border-color: var(--hc-error) !important;
+}
+
+/* Indicador sólido de erro (ex.: ponto de status) */
+[data-theme^="high-contrast"] [class~="bg-red-500/70"] {
+  background-color: var(--hc-error) !important;
+}
+
+/* Texto branco -> token de texto primário (crucial no tema claro: branco sobre branco) */
+[data-theme^="high-contrast"] [class~="text-white"] {
+  color: var(--hc-text) !important;
+}
+
+/* Hover em texto branco */
+[data-theme^="high-contrast"] [class~="hover:text-white"]:hover {
+  color: var(--hc-text) !important;
+}
+
+/* Texto slate-100/200/300 -> texto secundário de alto contraste */
+[data-theme^="high-contrast"] [class~="text-slate-100"],
+[data-theme^="high-contrast"] [class~="text-slate-200"],
+[data-theme^="high-contrast"] [class~="text-slate-300"] {
+  color: var(--hc-text-2) !important;
+}
+
+/* Hover em texto slate-200 */
+[data-theme^="high-contrast"] [class~="hover:text-slate-200"]:hover {
+  color: var(--hc-text-2) !important;
+}
+
+/* Texto slate-400 -> texto terciário de alto contraste */
+[data-theme^="high-contrast"] [class~="text-slate-400"] {
+  color: var(--hc-text-3) !important;
+}
+
+/* Texto slate-500 -> texto mais discreto (ainda >= 7:1) */
+[data-theme^="high-contrast"] [class~="text-slate-500"] {
+  color: var(--hc-text-4) !important;
+}
+
+/* IMPORTANTE: os dois blocos abaixo vem DEPOIS dos blocos de texto (text-white,
+   text-slate-*) de proposito - quando um elemento acumula bg-indigo-600 e
+   text-white ao mesmo tempo (ex.: o botao primario), a regra de cor precisa
+   vencer o empate de especificidade por ordem de declaracao (a ultima vence). */
+/* Fundo sólido indigo (botão primário, selo do logo) -> acento + texto/ícone em contraste */
+[data-theme^="high-contrast"] [class~="bg-indigo-500"],
+[data-theme^="high-contrast"] [class~="bg-indigo-600"] {
+  background-color: var(--hc-accent) !important;
+  color: var(--hc-accent-contrast) !important;
+}
+
+/* Hover do botão primário */
+[data-theme^="high-contrast"] [class~="hover:bg-indigo-500"]:hover {
+  background-color: var(--hc-accent) !important;
+  color: var(--hc-accent-contrast) !important;
+}
+
+/* Botão do input de arquivo (upload de capa de post) */
+[data-theme^="high-contrast"] [class~="file:bg-white/10"]::-webkit-file-upload-button,
+[data-theme^="high-contrast"] [class~="file:bg-white/10"]::file-selector-button {
+  background-color: var(--hc-surface) !important;
+}
+[data-theme^="high-contrast"] [class~="file:text-slate-100"]::-webkit-file-upload-button,
+[data-theme^="high-contrast"] [class~="file:text-slate-100"]::file-selector-button {
+  color: var(--hc-text-2) !important;
+}
+[data-theme^="high-contrast"] [class~="hover:file:bg-white/20"]:hover::-webkit-file-upload-button,
+[data-theme^="high-contrast"] [class~="hover:file:bg-white/20"]:hover::file-selector-button {
+  background-color: var(--hc-surface-hover) !important;
+}
+
+/* Anel de foco (navegação por teclado) -> acento de alto contraste */
+[data-theme^="high-contrast"] [class~="focus-visible:outline-indigo-400"]:focus-visible {
+  outline-color: var(--hc-accent) !important;
+}
+
+/* Gradiente decorativo (thumbnail de post sem capa) -> superfície sólida */
+[data-theme^="high-contrast"] [class~="from-indigo-600/30"][class~="to-purple-600/20"] {
+  background-image: none !important;
+  background-color: var(--hc-surface) !important;
+}
+
+/* Texto de destaque em gradiente (headline) -> cor sólida de acento */
+[data-theme^="high-contrast"] [class~="bg-clip-text"][class~="text-transparent"] {
+  background-image: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: var(--hc-accent) !important;
+  color: var(--hc-accent) !important;
+}
+
+/* Botão "accent" em gradiente -> fundo sólido de acento + texto em contraste */
+[data-theme^="high-contrast"] [class~="from-purple-600"][class~="to-indigo-600"] {
+  background-image: none !important;
+  background-color: var(--hc-accent) !important;
+  color: var(--hc-accent-contrast) !important;
+}
+
+/* Brilho colorido de sombra (indigo/purple) -> removido (evita conflito com o novo acento) */
+[data-theme^="high-contrast"] [class~="shadow-indigo-950/40"],
+[data-theme^="high-contrast"] [class~="shadow-indigo-950/50"],
+[data-theme^="high-contrast"] [class~="shadow-purple-950/40"] {
+  box-shadow: none !important;
+}
+
+/* Elementos de página e formulário que usam classes reais (não utilitárias) */
+[data-theme^="high-contrast"] body {
+  color: var(--hc-text) !important;
+}
+
+[data-theme^="high-contrast"] .input {
+  background-color: var(--hc-surface) !important;
+  border-color: var(--hc-border) !important;
+  color: var(--hc-text) !important;
+}
+[data-theme^="high-contrast"] .input:focus {
+  border-color: var(--hc-accent) !important;
+}
+[data-theme^="high-contrast"] select.input,
+[data-theme^="high-contrast"] select.input option {
+  background-color: var(--hc-surface) !important;
+  color: var(--hc-text) !important;
+}
+
+[data-theme^="high-contrast"] .post-preview h1,
+[data-theme^="high-contrast"] .post-preview h2,
+[data-theme^="high-contrast"] .post-preview h3,
+[data-theme^="high-contrast"] .post-preview h4,
+[data-theme^="high-contrast"] .post-preview h5,
+[data-theme^="high-contrast"] .post-preview h6 {
+  color: var(--hc-text) !important;
+}
+[data-theme^="high-contrast"] .post-preview blockquote {
+  color: var(--hc-text-3) !important;
+  border-color: var(--hc-accent) !important;
+}
+[data-theme^="high-contrast"] .post-preview code,
+[data-theme^="high-contrast"] .post-preview pre {
+  background-color: var(--hc-surface) !important;
+}
+[data-theme^="high-contrast"] .post-preview a {
+  color: var(--hc-accent) !important;
+}
+[data-theme^="high-contrast"] .post-preview th,
+[data-theme^="high-contrast"] .post-preview td,
+[data-theme^="high-contrast"] .post-preview hr {
+  border-color: var(--hc-border) !important;
+}
