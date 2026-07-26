@@ -9,6 +9,7 @@
     "lint": "next lint",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
+    "seed:admin": "node --env-file=.env scripts/seed-admin.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {

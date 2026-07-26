@@ -118,9 +118,16 @@ model Post {
   conteudo      String           @db.Text
   categoria     PostCategoria
   imagemCapaUrl String?
-  autor         String
 
-  // RN-SITE-04: só status = PUBLICADO fica visível publicamente
+  // RF-ADMIN-05/v1.3: autor deixou de ser texto livre e virou FK — agora há
+  // múltiplos admins reais. Sem dados existentes para migrar (painel admin
+  // ainda não tinha sido implementado).
+  autorId       String
+  autor         AdminUser        @relation(fields: [autorId], references: [id])
+
+  // RN-SITE-04: só status = PUBLICADO (e publicadoEm <= agora) fica visível
+  // publicamente. AGENDADO (RF-ADMIN-12) segue a mesma regra de visibilidade
+  // de RASCUNHO (RN-ADMIN-02) — só acessível via link de preview assinado.
   status        PostStatus       @default(RASCUNHO)
   publicadoEm   DateTime?
 
@@ -128,15 +135,30 @@ model Post {
   atualizadoEm  DateTime         @updatedAt
 
   envios        NewsletterSend[]
+  previewTokens PostPreviewToken[]
 
   @@map("posts")
 }
 
 enum PostStatus {
   RASCUNHO
+  AGENDADO
   PUBLICADO
 
   @@map("post_status")
+}
+
+// RF-ADMIN-11 — link de preview assinado para posts não publicados
+// (rascunho/agendado), acessível sem exigir login de quem recebe o link.
+model PostPreviewToken {
+  id       String   @id @default(cuid())
+  postId   String
+  post     Post     @relation(fields: [postId], references: [id])
+  token    String   @unique
+  expiraEm DateTime
+  criadoEm DateTime @default(now())
+
+  @@map("post_preview_tokens")
 }
 
 enum PostCategoria {
@@ -194,15 +216,47 @@ enum DiagnosticoCategoria {
 }
 
 // ---------------------------------------------------------------------------
-// Admin (RF-ADMIN-01)
+// Admin (RF-ADMIN-01 a 12) — Arquitetura_Tecnica_Site_PEIx v1.3, §3
 // ---------------------------------------------------------------------------
 
 model AdminUser {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  senhaHash String
+  id        String      @id @default(cuid())
+  email     String      @unique
+
+  // Nullable até o convite ser aceito (RF-ADMIN-06) — a senha nunca é
+  // definida nem transmitida pelo administrador que convida.
+  senhaHash String?
+
+  status    AdminStatus @default(CONVIDADO)
+
+  // Convite (RF-ADMIN-06/07)
+  tokenConvite     String?     @unique
+  conviteExpiraEm  DateTime?
+  convidadoPorId   String?
+  convidadoPor     AdminUser?  @relation("ConvitesAdmin", fields: [convidadoPorId], references: [id])
+  convidados       AdminUser[] @relation("ConvitesAdmin")
+
+  // Recuperação de senha (RF-ADMIN-08) — token de uso único
+  tokenResetSenha  String?     @unique
+  resetExpiraEm    DateTime?
+
+  // Lockout por tentativas malsucedidas (RN-ADMIN-04) — padrão simplificado
+  // (mesmo usado no sistema PEIx produto): tentativasLogin é reiniciado a
+  // cada login bem-sucedido ou quando bloqueadoAte expira.
+  tentativasLogin  Int         @default(0)
+  bloqueadoAte     DateTime?
 
   criadoEm  DateTime @default(now())
 
+  posts     Post[]
+
   @@map("admin_users")
+}
+
+enum AdminStatus {
+  CONVIDADO
+  ATIVO
+  DESATIVADO
+
+  @@map("admin_status")
 }

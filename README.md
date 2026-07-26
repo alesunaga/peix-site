@@ -64,17 +64,20 @@ npx prisma migrate dev --name init
 npm run dev
 ```
 
-## Status atual (fim da sessão de 10/07/2026)
+## Status atual (fim da sessão de 26/07/2026)
 
-- ✅ Schema Prisma completo (`prisma/schema.prisma`), incluindo `Cargo.OUTRO`
-- ✅ Home, Recursos, Contato e Diagnóstico de Conformidade — construídos e testados de ponta a ponta (visual + banco + e-mails)
+- ✅ Home, Recursos, Contato, Diagnóstico de Conformidade e Política de Privacidade — Fase 1a no ar
 - ✅ Rotas de API de Leads e Diagnóstico implementadas e testadas (`/api/leads`, `/api/diagnostico`)
-- ✅ Templates de e-mail base (confirmação, material, aviso ao representante, newsletter, novo post)
-- ✅ Padrão de e-mail best-effort (`enviarEmailsSemBloquear` em `src/lib/resend.ts`) — falha no envio nunca bloqueia a resposta ao visitante
+- ✅ Templates de e-mail base e padrão de e-mail best-effort (`enviarEmailsSemBloquear` em `src/lib/resend.ts`)
+- ✅ Go-live da Fase 1a concluído (Railway, DNS de `www.peix.ia.br`, Google Workspace, Resend fora do sandbox)
+- ✅ **Painel Admin — fundação (Fase 1b, RF-ADMIN-01):** schema Prisma atualizado (`admin_users` com convite/reset/lockout, `posts.autorId`, `post_status.AGENDADO`, `post_preview_tokens`); login com sessão em cookie assinado (httpOnly, RN-ADMIN-03) e lockout (RN-ADMIN-04); middleware protegendo `/admin/**`; shell autenticado (`/admin`) com navegação para Posts/Leads/Assinantes/Usuários
+- ✅ **Painel Admin — Leads (RF-ADMIN-02):** `/admin/leads` com busca (nome/e-mail/instituição), paginação e exportação em CSV (`GET /api/admin/leads/export`)
+- ✅ **Painel Admin — Assinantes (RF-ADMIN-03):** `/admin/assinantes` com filtro por status (pendente/confirmado/descadastrado), contadores e paginação
 - ⬜ Rotas de API de newsletter (subscribe/confirmar/descadastrar) — a implementar
 - ⬜ Rotas de API de posts (CRUD + disparo em lote) — a implementar
-- ⬜ Autenticação do painel admin — a implementar (próximo passo sugerido, é a base para o Blog)
-- ⬜ UI do Blog e do painel `/admin` — a implementar
-- ⬜ Domínio `peix.ia.br` — ainda não resolve (DNS pendente) e não verificado no Resend (envios em modo sandbox)
+- ⬜ CRUD de posts com Markdown/preview/agendamento/upload de capa (RF-ADMIN-05, 09–12) — a implementar
+- ⬜ Convite/CRUD de usuários admin e recuperação de senha (RF-ADMIN-06, 07, 08) — a implementar
 
-Documentos de referência atualizados: `Requisitos_Site_PEIx_v1.2.md` e `Arquitetura_Tecnica_Site_PEIx_v1.2.md`.
+> **Nota de infraestrutura:** a migration `prisma/migrations/20260726114400_admin_panel_foundation` foi escrita manualmente (o ambiente onde foi gerada não tem acesso de rede ao Postgres do Railway nem ao engine Linux do Prisma). Antes de rodar localmente: `npx prisma generate`, aplicar a migration (`npx prisma migrate deploy` ou `migrate dev`) e criar o primeiro admin com `npm run seed:admin -- seuemail@peix.ia.br "senha-forte"`.
+
+Documentos de referência atualizados: `Requisitos_Site_PEIx_v1.7.md` e `Arquitetura_Tecnica_Site_PEIx_v1.5.md`.
