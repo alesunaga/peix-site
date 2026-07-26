@@ -14,7 +14,7 @@ const schema = z.object({ email: z.string().email() });
 
 export async function POST(request: NextRequest) {
   const adminAtual = await getAdminAtual();
-  if (!adminAtual || adminAtual.status !== "ATIVO") {
+  if (!adminAtual) {
     return NextResponse.json({ erro: "Não autenticado." }, { status: 401 });
   }
 

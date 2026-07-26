@@ -1,12 +1,14 @@
 // src/app/api/admin/leads/export/route.ts — RF-ADMIN-02
 //
 // Exporta os leads (respeitando o filtro de busca `q`, se enviado) em CSV,
-// para uso como CRM provisório. Protegido pelo middleware (tudo em
-// /api/admin/** exige sessão, exceto /api/admin/auth/**).
+// para uso como CRM provisório. O middleware barra quem não tem cookie
+// válido, mas getAdminAtual() é a checagem autoritativa (também cobre
+// revogação por troca de senha e desativação — ver src/lib/admin-current.ts).
 
 import { NextRequest, NextResponse } from "next/server";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { getAdminAtual } from "@/lib/admin-current";
 import { CARGO_LABELS, LEAD_ORIGEM_LABELS, SEGMENTO_LABELS } from "@/lib/labels";
 
 function csvEscape(valor: string | number | boolean | null | undefined): string {
@@ -19,6 +21,11 @@ function csvEscape(valor: string | number | boolean | null | undefined): string 
 }
 
 export async function GET(request: NextRequest) {
+  const adminAtual = await getAdminAtual();
+  if (!adminAtual) {
+    return NextResponse.json({ erro: "Não autenticado." }, { status: 401 });
+  }
+
   const { searchParams } = new URL(request.url);
   const q = (searchParams.get("q") ?? "").trim();
 

@@ -7,17 +7,24 @@
 // Node.js) quanto no middleware (runtime Edge) sem duplicar implementação.
 //
 // Formato do token: "<payload-base64url>.<assinatura-base64url>"
-// payload = { sub: adminId, exp: epochSeconds }
+// payload = { sub: adminId, iat: epochSeconds, exp: epochSeconds }
 //
 // RN-ADMIN-03: expiração por inatividade (7 dias) — o middleware reemite o
 // cookie a cada requisição autenticada, deslizando a expiração (ver
-// src/middleware.ts).
+// src/middleware.ts). Nessa renovação o `iat` é preservado (não vira
+// "agora") — é ele que permite revogar sessões antigas quando a senha muda:
+// getAdminAtual() (src/lib/admin-current.ts) rejeita qualquer sessão cujo
+// `iat` seja anterior a AdminUser.senhaAlteradaEm. Esse cookie é stateless
+// (sem tabela de sessões), então essa checagem por data é o único jeito de
+// revogar — só roda em runtime Node.js (onde dá pra consultar o banco), não
+// no middleware Edge, que só valida assinatura/expiração.
 
 export const ADMIN_SESSION_COOKIE = "peix_admin_session";
 export const ADMIN_SESSION_MAX_AGE_SECONDS = 7 * 24 * 60 * 60; // 7 dias
 
 type SessionPayload = {
   sub: string; // AdminUser.id
+  iat: number; // epoch seconds — quando a sessão foi autenticada de verdade (não muda em renovações)
   exp: number; // epoch seconds
 };
 
@@ -58,13 +65,21 @@ async function getHmacKey(): Promise<CryptoKey> {
   );
 }
 
-/** Cria um token de sessão assinado para o AdminUser informado. */
+/**
+ * Cria um token de sessão assinado para o AdminUser informado.
+ *
+ * `iat` só deve ser passado explicitamente ao renovar uma sessão existente
+ * (middleware) — para preservá-lo. Numa autenticação nova (login, ativação
+ * de convite), omita para usar o instante atual.
+ */
 export async function createSessionToken(
   adminId: string,
   maxAgeSeconds: number = ADMIN_SESSION_MAX_AGE_SECONDS,
+  iat: number = Math.floor(Date.now() / 1000),
 ): Promise<string> {
   const payload: SessionPayload = {
     sub: adminId,
+    iat,
     exp: Math.floor(Date.now() / 1000) + maxAgeSeconds,
   };
   const payloadB64 = toBase64Url(new TextEncoder().encode(JSON.stringify(payload)));
@@ -97,6 +112,7 @@ export async function verifySessionToken(token: string | undefined | null): Prom
     if (typeof payload.exp !== "number" || payload.exp < Math.floor(Date.now() / 1000)) {
       return null;
     }
+    if (typeof payload.iat !== "number") return null;
     if (typeof payload.sub !== "string" || !payload.sub) return null;
 
     return payload;

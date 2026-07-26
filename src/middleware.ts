@@ -62,9 +62,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  // Sessão válida — desliza a expiração (RN-ADMIN-03) e segue.
+  // Sessão válida — desliza a expiração (RN-ADMIN-03) preservando o `iat`
+  // original (necessário para a revogação por troca de senha, ver
+  // src/lib/admin-session.ts) e segue. A checagem autoritativa contra
+  // senhaAlteradaEm acontece em runtime Node.js (getAdminAtual), não aqui —
+  // o middleware roda em Edge e não tem acesso ao Postgres.
   const resposta = NextResponse.next();
-  const novoToken = await createSessionToken(sessao.sub);
+  const novoToken = await createSessionToken(sessao.sub, ADMIN_SESSION_MAX_AGE_SECONDS, sessao.iat);
   resposta.cookies.set(ADMIN_SESSION_COOKIE, novoToken, sessionCookieOptions(ADMIN_SESSION_MAX_AGE_SECONDS));
   return resposta;
 }

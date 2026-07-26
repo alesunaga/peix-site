@@ -49,6 +49,7 @@ export async function POST(request: NextRequest) {
       conviteExpiraEm: null,
       tentativasLogin: 0,
       bloqueadoAte: null,
+      senhaAlteradaEm: new Date(),
     },
   });
 

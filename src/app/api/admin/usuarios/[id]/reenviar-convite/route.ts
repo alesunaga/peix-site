@@ -11,7 +11,7 @@ import { emitirConvite } from "@/lib/admin-convite";
 
 export async function POST(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const adminAtual = await getAdminAtual();
-  if (!adminAtual || adminAtual.status !== "ATIVO") {
+  if (!adminAtual) {
     return NextResponse.json({ erro: "Não autenticado." }, { status: 401 });
   }
 

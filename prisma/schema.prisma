@@ -240,6 +240,13 @@ model AdminUser {
   tokenResetSenha  String?     @unique
   resetExpiraEm    DateTime?
 
+  // Revogação de sessão ao trocar de senha: toda sessão (cookie assinado
+  // stateless — ver src/lib/admin-session.ts) carrega o instante em que foi
+  // emitida ("iat"); getAdminAtual() rejeita sessões emitidas antes de
+  // senhaAlteradaEm. Sem isso, resetar a senha por segurança (ex.: conta
+  // comprometida) não derrubava sessões já abertas em outro lugar.
+  senhaAlteradaEm  DateTime?
+
   // Lockout por tentativas malsucedidas (RN-ADMIN-04) — padrão simplificado
   // (mesmo usado no sistema PEIx produto): tentativasLogin é reiniciado a
   // cada login bem-sucedido ou quando bloqueadoAte expira.

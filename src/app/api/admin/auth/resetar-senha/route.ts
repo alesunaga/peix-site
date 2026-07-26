@@ -2,12 +2,12 @@
 //
 // Pública. Token de uso único (limpo após o uso).
 //
-// Nota de escopo: a sessão atual é um cookie assinado stateless (sem store
-// de sessões no servidor — ver src/lib/admin-session.ts), então não há como
-// revogar individualmente sessões já emitidas para este usuário ao resetar
-// a senha. Elas seguem válidas até expirar naturalmente (RN-ADMIN-03, até 7
-// dias de inatividade). Aceitável para o escopo atual (painel interno, baixo
-// tráfego) — revisar se isso virar requisito de segurança mais estrito.
+// Grava `senhaAlteradaEm` — é isso que faz sessões antigas (abertas antes
+// deste reset) pararem de valer no próximo request, mesmo que a assinatura
+// e a expiração do cookie continuem tecnicamente válidas. A checagem em si
+// mora em getAdminAtual() (src/lib/admin-current.ts), porque só ali (runtime
+// Node.js) dá pra consultar o banco — o middleware roda em Edge e só valida
+// o cookie. Ver src/lib/admin-session.ts para o desenho completo.
 
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
       resetExpiraEm: null,
       tentativasLogin: 0,
       bloqueadoAte: null,
+      senhaAlteradaEm: new Date(),
     },
   });
 

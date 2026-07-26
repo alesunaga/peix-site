@@ -1,8 +1,9 @@
 // src/app/admin/(painel)/layout.tsx
 //
 // Shell autenticado do Painel Admin. Não se aplica a /admin/login (fora
-// deste route group). O middleware (src/middleware.ts) já garante sessão
-// válida antes de chegar aqui; getAdminAtual() só busca os dados para exibir.
+// deste route group). O middleware (src/middleware.ts) só valida o cookie
+// (Edge, sem banco); getAdminAtual() é a checagem autoritativa (status
+// ATIVO + revogação por troca de senha — ver src/lib/admin-current.ts).
 
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -17,9 +18,7 @@ export const metadata: Metadata = {
 export default async function PainelLayout({ children }: { children: React.ReactNode }) {
   const admin = await getAdminAtual();
 
-  // Defesa extra além do middleware (ex.: admin foi desativado entre o
-  // middleware e o carregamento da página).
-  if (!admin || admin.status !== "ATIVO") {
+  if (!admin) {
     redirect("/admin/login");
   }
 
