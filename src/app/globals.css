@@ -26,4 +26,28 @@ body {
     background-color: #0b0a1f;
     color: #f1f5f9;
   }
+
+  /* Preview do editor de posts (RF-ADMIN-09) — sem plugin @tailwindcss/typography
+     instalado, então a tipografia do HTML sanitizado (marked + sanitize-html,
+     ver src/lib/markdown.ts) é estilizada manualmente aqui. */
+  .post-preview h1 { @apply mb-3 mt-6 text-2xl font-semibold text-white first:mt-0; }
+  .post-preview h2 { @apply mb-2 mt-5 text-xl font-semibold text-white first:mt-0; }
+  .post-preview h3 { @apply mb-2 mt-4 text-lg font-semibold text-white first:mt-0; }
+  .post-preview h4,
+  .post-preview h5,
+  .post-preview h6 { @apply mb-2 mt-3 font-semibold text-white first:mt-0; }
+  .post-preview p { @apply mb-3 leading-relaxed; }
+  .post-preview ul { @apply mb-3 list-disc pl-5; }
+  .post-preview ol { @apply mb-3 list-decimal pl-5; }
+  .post-preview li { @apply mb-1; }
+  .post-preview blockquote { @apply my-3 border-l-2 border-indigo-400/40 pl-4 italic text-slate-400; }
+  .post-preview code { @apply rounded bg-white/10 px-1.5 py-0.5 text-xs; }
+  .post-preview pre { @apply mb-3 overflow-x-auto rounded-lg bg-white/5 p-3 text-xs; }
+  .post-preview pre code { @apply bg-transparent p-0; }
+  .post-preview a { @apply text-indigo-400 underline; }
+  .post-preview table { @apply mb-3 w-full border-collapse text-sm; }
+  .post-preview th,
+  .post-preview td { @apply border border-white/10 px-2 py-1 text-left; }
+  .post-preview hr { @apply my-4 border-white/10; }
+  .post-preview img { @apply my-3 max-w-full rounded-lg; }
 }

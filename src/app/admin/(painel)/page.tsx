@@ -7,27 +7,31 @@ import { getAdminAtual } from "@/lib/admin-current";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminDashboardPage() {
-  const [admin, totalLeads, totalAssinantesConfirmados, totalAdminsAtivos] = await Promise.all([
-    getAdminAtual(),
-    prisma.lead.count(),
-    prisma.newsletterSubscriber.count({ where: { status: "CONFIRMADO" } }),
-    prisma.adminUser.count({ where: { status: "ATIVO" } }),
-  ]);
+  const [admin, totalLeads, totalAssinantesConfirmados, totalAdminsAtivos, totalPosts] =
+    await Promise.all([
+      getAdminAtual(),
+      prisma.lead.count(),
+      prisma.newsletterSubscriber.count({ where: { status: "CONFIRMADO" } }),
+      prisma.adminUser.count({ where: { status: "ATIVO" } }),
+      prisma.post.count(),
+    ]);
 
   return (
     <div>
       <Eyebrow>Painel Admin</Eyebrow>
       <h1 className="mb-1 text-2xl font-semibold text-white">Olá, {admin?.email}</h1>
       <p className="mb-8 text-sm text-slate-400">
-        Login, sessão, leads, assinantes e gestão de usuários já disponíveis. CRUD de posts chega
-        numa próxima sessão — ver RF-ADMIN-05, 09–12.
+        Login, sessão, leads, assinantes, usuários e CRUD de posts já disponíveis. Agendamento,
+        upload de capa (R2) e link de preview assinado chegam numa próxima sessão — ver RF-ADMIN-10,
+        11, 12.
       </p>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatusCard
           titulo="Posts"
-          descricao="CRUD com Markdown, agendamento e preview."
-          status="Em construção"
+          descricao={`${totalPosts} post${totalPosts === 1 ? "" : "s"}. Markdown com preview.`}
+          status="Pronto"
+          href="/admin/posts"
         />
         <StatusCard
           titulo="Leads"
