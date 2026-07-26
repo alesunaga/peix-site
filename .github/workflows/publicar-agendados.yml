@@ -8,6 +8,11 @@
 #
 # Roda a cada 10 minutos. Pode ser disparado manualmente também
 # (workflow_dispatch), útil para testar sem esperar o próximo horário.
+#
+# URL: usando o domínio *.up.railway.app diretamente — peix.ia.br ainda não
+# resolve (delegação de DNS pendente, ver Requisitos_Site_PEIx v1.7, §"Próxima
+# sessão"). Trocar pra "https://www.peix.ia.br" (ou o domínio final) assim que
+# o DNS estiver confirmado funcionando no navegador.
 
 name: Publicar posts agendados
 
@@ -23,7 +28,7 @@ jobs:
       - name: Chamar rota de publicação de agendados
         run: |
           resposta=$(curl -sS -o /tmp/resposta.json -w "%{http_code}" -X POST \
-            "https://peix.ia.br/api/cron/publicar-agendados" \
+            "https://peix-site-production.up.railway.app/api/cron/publicar-agendados" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
 
           echo "HTTP status: $resposta"
