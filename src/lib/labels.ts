@@ -39,8 +39,6 @@ export const POST_CATEGORIA_LABELS: Record<string, string> = {
   EVENTOS: "Eventos",
 };
 
-// RF-ADMIN-05: AGENDADO existe no schema (RF-ADMIN-12) mas ainda não tem UI
-// nesta fase — fica de fora do formulário até o agendamento ser implementado.
 export const POST_STATUS_LABELS: Record<string, string> = {
   RASCUNHO: "Rascunho",
   AGENDADO: "Agendado",

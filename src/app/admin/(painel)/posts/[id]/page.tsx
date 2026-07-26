@@ -34,6 +34,8 @@ export default async function EditarPostPage({
           conteudo: post.conteudo,
           categoria: post.categoria,
           status: post.status,
+          publicadoEm: post.publicadoEm?.toISOString() ?? null,
+          imagemCapaUrl: post.imagemCapaUrl,
         }}
       />
     </div>

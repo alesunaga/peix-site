@@ -11,6 +11,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { getAdminAtual } from "@/lib/admin-current";
 import { gerarSlug } from "@/lib/slug";
+import { dispararNewsletterPost } from "@/lib/newsletter-dispatch";
 
 const CATEGORIAS = [
   "INCLUSAO",
@@ -21,16 +22,23 @@ const CATEGORIAS = [
   "EVENTOS",
 ] as const;
 
-const STATUS = ["RASCUNHO", "PUBLICADO"] as const;
+const STATUS = ["RASCUNHO", "AGENDADO", "PUBLICADO"] as const;
 
-const updateSchema = z.object({
-  titulo: z.string().min(3).optional(),
-  slug: z.string().min(3).optional(),
-  resumo: z.string().min(3).optional(),
-  conteudo: z.string().min(1).optional(),
-  categoria: z.enum(CATEGORIAS).optional(),
-  status: z.enum(STATUS).optional(),
-});
+const updateSchema = z
+  .object({
+    titulo: z.string().min(3).optional(),
+    slug: z.string().min(3).optional(),
+    resumo: z.string().min(3).optional(),
+    conteudo: z.string().min(1).optional(),
+    categoria: z.enum(CATEGORIAS).optional(),
+    status: z.enum(STATUS).optional(),
+    // RF-ADMIN-12: obrigatório e precisa ser futuro quando status = AGENDADO.
+    publicadoEm: z.coerce.date().optional(),
+  })
+  .refine((dados) => dados.status !== "AGENDADO" || (dados.publicadoEm && dados.publicadoEm > new Date()), {
+    message: "Informe uma data/hora futura para agendar a publicação.",
+    path: ["publicadoEm"],
+  });
 
 async function garantirSlugUnico(base: string, ignorarId: string): Promise<string> {
   let slug = base || "post";
@@ -73,10 +81,19 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
   }
 
   const novoStatus = dados.status ?? post.status;
+  const estavaPublicado = post.status === "PUBLICADO";
+
   // RN-SITE-04: só marca publicadoEm na primeira transição para PUBLICADO —
-  // despublicar não apaga a data histórica (quem decide visibilidade é o status).
-  const publicadoEm =
-    novoStatus === "PUBLICADO" && post.status !== "PUBLICADO" ? new Date() : post.publicadoEm;
+  // despublicar não apaga a data histórica (quem decide visibilidade é o
+  // status). RF-ADMIN-12: transição para AGENDADO grava a data/hora futura
+  // informada — é ela que o job de agendamento usa para decidir quando
+  // publicar (ver src/app/api/cron/publicar-agendados/route.ts).
+  let publicadoEm = post.publicadoEm;
+  if (novoStatus === "PUBLICADO" && !estavaPublicado) {
+    publicadoEm = new Date();
+  } else if (novoStatus === "AGENDADO") {
+    publicadoEm = dados.publicadoEm ?? post.publicadoEm;
+  }
 
   const atualizado = await prisma.post.update({
     where: { id },
@@ -87,6 +104,18 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
       publicadoEm,
     },
   });
+
+  // Publicação imediata dispara a newsletter (RF-BLOG-05) — mesmo padrão
+  // best-effort do job de agendamento (RF-ADMIN-12, ver
+  // src/lib/newsletter-dispatch.ts). Só dispara na transição, nunca de novo
+  // se o post já estava PUBLICADO (evita reenvio ao só editar o conteúdo).
+  if (novoStatus === "PUBLICADO" && !estavaPublicado) {
+    try {
+      await dispararNewsletterPost(atualizado);
+    } catch (e) {
+      console.error("[posts] Falha ao disparar newsletter na publicação imediata:", e);
+    }
+  }
 
   return NextResponse.json({ ok: true, post: { id: atualizado.id, slug: atualizado.slug } });
 }

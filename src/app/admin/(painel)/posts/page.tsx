@@ -19,6 +19,7 @@ const TAMANHO_PAGINA = 20;
 const FILTROS: { valor: PostStatus | "TODOS"; label: string }[] = [
   { valor: "TODOS", label: "Todos" },
   { valor: "RASCUNHO", label: "Rascunho" },
+  { valor: "AGENDADO", label: "Agendado" },
   { valor: "PUBLICADO", label: "Publicado" },
 ];
 
@@ -76,8 +77,7 @@ export default async function AdminPostsPage({
         <div>
           <h1 className="mb-1 text-2xl font-semibold text-white">Posts</h1>
           <p className="text-sm text-slate-400">
-            {total} post{total === 1 ? "" : "s"}. Agendamento, capa (R2) e link de preview chegam
-            numa próxima sessão (RF-ADMIN-10, 11, 12).
+            {total} post{total === 1 ? "" : "s"}.
           </p>
         </div>
         <ButtonLink href="/admin/posts/novo" withArrow={false}>
@@ -134,7 +134,7 @@ export default async function AdminPostsPage({
               <th className="px-4 py-3 font-medium">Categoria</th>
               <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3 font-medium">Autor</th>
-              <th className="px-4 py-3 font-medium">Atualizado em</th>
+              <th className="px-4 py-3 font-medium">Agendado/Publicado em</th>
               <th className="px-4 py-3 font-medium">Ações</th>
             </tr>
           </thead>
@@ -150,7 +150,7 @@ export default async function AdminPostsPage({
                 </td>
                 <td className="px-4 py-3 text-xs text-slate-500">{post.autor.email}</td>
                 <td className="px-4 py-3 whitespace-nowrap text-xs text-slate-500">
-                  {formatarData(post.atualizadoEm)}
+                  {formatarData(post.publicadoEm)}
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center justify-end gap-3">

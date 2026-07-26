@@ -1,0 +1,36 @@
+# .github/workflows/publicar-agendados.yml — RF-ADMIN-12
+#
+# Dispara periodicamente a rota de publicação de posts agendados. A rota
+# (src/app/api/cron/publicar-agendados/route.ts) é protegida por CRON_SECRET
+# — precisa estar cadastrado como secret deste repositório no GitHub
+# (Settings → Secrets and variables → Actions → New repository secret,
+# nome CRON_SECRET, mesmo valor que está no ambiente de produção no Railway).
+#
+# Roda a cada 10 minutos. Pode ser disparado manualmente também
+# (workflow_dispatch), útil para testar sem esperar o próximo horário.
+
+name: Publicar posts agendados
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Chamar rota de publicação de agendados
+        run: |
+          resposta=$(curl -sS -o /tmp/resposta.json -w "%{http_code}" -X POST \
+            "https://peix.ia.br/api/cron/publicar-agendados" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
+
+          echo "HTTP status: $resposta"
+          cat /tmp/resposta.json
+          echo
+
+          if [ "$resposta" -ge 400 ]; then
+            echo "::error::Falha ao chamar /api/cron/publicar-agendados (HTTP $resposta)"
+            exit 1
+          fi
