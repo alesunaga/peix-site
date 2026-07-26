@@ -4,6 +4,7 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 type Status = "idle" | "enviando" | "erro";
@@ -75,6 +76,13 @@ export function LoginForm() {
       <Button type="submit" disabled={status === "enviando"} className="mt-6 w-full">
         {status === "enviando" ? "Entrando..." : "Entrar"}
       </Button>
+
+      <Link
+        href="/admin/esqueci-senha"
+        className="mt-4 block text-center text-xs text-slate-400 hover:text-slate-200"
+      >
+        Esqueci minha senha
+      </Link>
     </form>
   );
 }

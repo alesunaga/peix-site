@@ -23,6 +23,15 @@ import {
 
 const LOGIN_PATH = "/admin/login";
 
+// Páginas acessíveis sem sessão — quem chega aqui ainda não está autenticado
+// por definição (login, ativação de convite, recuperação de senha).
+const PAGINAS_PUBLICAS = new Set([
+  LOGIN_PATH,
+  "/admin/ativar",
+  "/admin/esqueci-senha",
+  "/admin/resetar-senha",
+]);
+
 function isRotaAuthPublica(pathname: string) {
   return pathname.startsWith("/api/admin/auth/");
 }
@@ -37,7 +46,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (isPagina && pathname === LOGIN_PATH) {
+  if (isPagina && PAGINAS_PUBLICAS.has(pathname)) {
     return NextResponse.next();
   }
 

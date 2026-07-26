@@ -14,7 +14,9 @@ import MaterialInformativo from "@/emails/MaterialInformativo";
 import AvisoRepresentante from "@/emails/AvisoRepresentante";
 import NewsletterConfirmacao from "@/emails/NewsletterConfirmacao";
 import NovoPost from "@/emails/NovoPost";
-import type { Lead, Diagnostico, Post } from "@prisma/client";
+import ConviteAdmin from "@/emails/ConviteAdmin";
+import ResetSenhaAdmin from "@/emails/ResetSenhaAdmin";
+import type { Lead, Diagnostico, Post, AdminUser } from "@prisma/client";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -136,5 +138,39 @@ export async function enviarAvisoNovoPost(email: string, post: Post, unsubscribe
       react: NovoPost({ post, unsubscribeToken }),
     },
     "aviso de novo post",
+  );
+}
+
+/**
+ * RF-ADMIN-06 — convite (ou reenvio de convite) de administrador.
+ */
+export async function enviarConviteAdmin(
+  admin: AdminUser,
+  token: string,
+  convidadoPorEmail?: string | null,
+) {
+  return enviarOuFalhar(
+    {
+      from: FROM,
+      to: admin.email,
+      subject: "Convite para o Painel Admin — PEIx",
+      react: ConviteAdmin({ token, convidadoPorEmail: convidadoPorEmail ?? null }),
+    },
+    "convite de admin",
+  );
+}
+
+/**
+ * RF-ADMIN-08 — recuperação de senha.
+ */
+export async function enviarResetSenhaAdmin(admin: AdminUser, token: string) {
+  return enviarOuFalhar(
+    {
+      from: FROM,
+      to: admin.email,
+      subject: "Redefinição de senha — Painel Admin PEIx",
+      react: ResetSenhaAdmin({ token }),
+    },
+    "reset de senha de admin",
   );
 }

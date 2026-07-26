@@ -73,10 +73,10 @@ npm run dev
 - ✅ **Painel Admin — fundação (Fase 1b, RF-ADMIN-01):** schema Prisma atualizado (`admin_users` com convite/reset/lockout, `posts.autorId`, `post_status.AGENDADO`, `post_preview_tokens`); login com sessão em cookie assinado (httpOnly, RN-ADMIN-03) e lockout (RN-ADMIN-04); middleware protegendo `/admin/**`; shell autenticado (`/admin`) com navegação para Posts/Leads/Assinantes/Usuários
 - ✅ **Painel Admin — Leads (RF-ADMIN-02):** `/admin/leads` com busca (nome/e-mail/instituição), paginação e exportação em CSV (`GET /api/admin/leads/export`)
 - ✅ **Painel Admin — Assinantes (RF-ADMIN-03):** `/admin/assinantes` com filtro por status (pendente/confirmado/descadastrado), contadores e paginação
+- ✅ **Painel Admin — Usuários (RF-ADMIN-06, 07, 08):** `/admin/usuarios` — convite por e-mail (token 48h, senha nunca definida por quem convida), reenvio de convite, desativação (sem exclusão física — reativação é feita reenviando um novo convite); `/admin/ativar` (define senha e já autentica), `/admin/esqueci-senha` e `/admin/resetar-senha` (token de uso único, 1h). Ver nota de escopo sobre revogação de sessão no arquivo `src/app/api/admin/auth/resetar-senha/route.ts`.
 - ⬜ Rotas de API de newsletter (subscribe/confirmar/descadastrar) — a implementar
 - ⬜ Rotas de API de posts (CRUD + disparo em lote) — a implementar
 - ⬜ CRUD de posts com Markdown/preview/agendamento/upload de capa (RF-ADMIN-05, 09–12) — a implementar
-- ⬜ Convite/CRUD de usuários admin e recuperação de senha (RF-ADMIN-06, 07, 08) — a implementar
 
 > **Nota de infraestrutura:** a migration `prisma/migrations/20260726114400_admin_panel_foundation` foi escrita manualmente (o ambiente onde foi gerada não tem acesso de rede ao Postgres do Railway nem ao engine Linux do Prisma). Antes de rodar localmente: `npx prisma generate`, aplicar a migration (`npx prisma migrate deploy` ou `migrate dev`) e criar o primeiro admin com `npm run seed:admin -- seuemail@peix.ia.br "senha-forte"`.
 

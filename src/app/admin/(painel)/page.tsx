@@ -7,10 +7,11 @@ import { getAdminAtual } from "@/lib/admin-current";
 import { prisma } from "@/lib/prisma";
 
 export default async function AdminDashboardPage() {
-  const [admin, totalLeads, totalAssinantesConfirmados] = await Promise.all([
+  const [admin, totalLeads, totalAssinantesConfirmados, totalAdminsAtivos] = await Promise.all([
     getAdminAtual(),
     prisma.lead.count(),
     prisma.newsletterSubscriber.count({ where: { status: "CONFIRMADO" } }),
+    prisma.adminUser.count({ where: { status: "ATIVO" } }),
   ]);
 
   return (
@@ -18,8 +19,8 @@ export default async function AdminDashboardPage() {
       <Eyebrow>Painel Admin</Eyebrow>
       <h1 className="mb-1 text-2xl font-semibold text-white">Olá, {admin?.email}</h1>
       <p className="mb-8 text-sm text-slate-400">
-        Login, sessão, leads e assinantes já disponíveis. CRUD de posts e gestão de usuários chegam
-        nas próximas sessões — ver RF-ADMIN-05 a 12.
+        Login, sessão, leads, assinantes e gestão de usuários já disponíveis. CRUD de posts chega
+        numa próxima sessão — ver RF-ADMIN-05, 09–12.
       </p>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -42,8 +43,9 @@ export default async function AdminDashboardPage() {
         />
         <StatusCard
           titulo="Usuários"
-          descricao="Convite, CRUD e desativação de admins."
-          status="Em construção"
+          descricao={`${totalAdminsAtivos} admin${totalAdminsAtivos === 1 ? "" : "s"} ativo${totalAdminsAtivos === 1 ? "" : "s"}.`}
+          status="Pronto"
+          href="/admin/usuarios"
         />
       </div>
     </div>
