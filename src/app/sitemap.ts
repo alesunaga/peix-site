@@ -9,6 +9,12 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL } from "@/lib/site";
 
+// Sem isso, o Next tenta pré-renderizar /sitemap.xml em build-time — e o
+// Railway não expõe `postgres.railway.internal` pro container de build,
+// só em runtime (mesma rede interna). Renderiza por request, como as
+// páginas do admin que já consultam o banco.
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const paginasFixas: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "monthly", priority: 1 },
