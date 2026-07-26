@@ -1,10 +1,12 @@
 // src/emails/ResetSenhaAdmin.tsx
 // RF-ADMIN-08 — recuperação de senha do Painel Admin.
 
+import { SITE_URL } from "@/lib/site";
+
 type Props = { token: string };
 
 export default function ResetSenhaAdmin({ token }: Props) {
-  const linkReset = `https://peix.ia.br/admin/resetar-senha?token=${token}`;
+  const linkReset = `${SITE_URL}/admin/resetar-senha?token=${token}`;
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", color: "#1e1b3a", maxWidth: 560 }}>

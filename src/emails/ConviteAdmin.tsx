@@ -2,10 +2,12 @@
 // RF-ADMIN-06 — convite de novo administrador. A senha nunca é definida nem
 // transmitida por quem convida; o convidado a define ao clicar no link.
 
+import { SITE_URL } from "@/lib/site";
+
 type Props = { token: string; convidadoPorEmail: string | null };
 
 export default function ConviteAdmin({ token, convidadoPorEmail }: Props) {
-  const linkAtivacao = `https://peix.ia.br/admin/ativar?token=${token}`;
+  const linkAtivacao = `${SITE_URL}/admin/ativar?token=${token}`;
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", color: "#1e1b3a", maxWidth: 560 }}>

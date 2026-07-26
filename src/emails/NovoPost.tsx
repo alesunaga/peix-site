@@ -3,12 +3,13 @@
 // Sempre inclui link de descadastro (unsubscribe self-service).
 
 import type { Post } from "@prisma/client";
+import { SITE_URL } from "@/lib/site";
 
 type Props = { post: Post; unsubscribeToken: string };
 
 export default function NovoPost({ post, unsubscribeToken }: Props) {
-  const linkPost = `https://peix.ia.br/blog/${post.slug}`;
-  const linkUnsubscribe = `https://peix.ia.br/newsletter/descadastrar?token=${unsubscribeToken}`;
+  const linkPost = `${SITE_URL}/blog/${post.slug}`;
+  const linkUnsubscribe = `${SITE_URL}/newsletter/descadastrar?token=${unsubscribeToken}`;
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", color: "#1e1b3a", maxWidth: 560 }}>

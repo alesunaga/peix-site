@@ -2,9 +2,12 @@
 // RF-LEAD-06 — material definido: "Material_Informativo_PEIx_Decreto_12773.pdf",
 // servido estaticamente em public/materiais/decreto-12773.pdf.
 
+import { SITE_URL } from "@/lib/site";
+
 type Props = { nome: string };
 
-const LINK_MATERIAL = process.env.MATERIAL_INFORMATIVO_URL ?? "https://peix.ia.br/materiais/decreto-12773.pdf";
+const LINK_MATERIAL =
+  process.env.MATERIAL_INFORMATIVO_URL ?? `${SITE_URL}/materiais/decreto-12773.pdf`;
 
 export default function MaterialInformativo({ nome }: Props) {
   return (

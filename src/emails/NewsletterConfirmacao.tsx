@@ -1,10 +1,12 @@
 // src/emails/NewsletterConfirmacao.tsx
 // RF-BLOG-04 — double opt-in.
 
+import { SITE_URL } from "@/lib/site";
+
 type Props = { token: string };
 
 export default function NewsletterConfirmacao({ token }: Props) {
-  const linkConfirmacao = `https://peix.ia.br/newsletter/confirmar?token=${token}`;
+  const linkConfirmacao = `${SITE_URL}/newsletter/confirmar?token=${token}`;
 
   return (
     <div style={{ fontFamily: "Arial, sans-serif", color: "#1e1b3a", maxWidth: 560 }}>

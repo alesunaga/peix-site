@@ -51,7 +51,12 @@ src/
 ├── lib/
 │   ├── prisma.ts                  # Singleton do Prisma Client
 │   ├── resend.ts                  # Orquestração de envio de e-mail
-│   └── diagnostico-config.ts      # Perguntas/pesos do Diagnóstico (RN-DIAG-01)
+│   ├── diagnostico-config.ts      # Perguntas/pesos do Diagnóstico (RN-DIAG-01)
+│   ├── markdown.ts                # Markdown → HTML sanitizado (marked + sanitize-html)
+│   ├── newsletter-dispatch.ts     # Disparo em lote ao publicar post (RF-BLOG-05)
+│   └── site.ts                    # SITE_URL canônica (www.peix.ia.br) p/ links absolutos
+├── app/sitemap.ts                  # Sitemap dinâmico (fixas + posts publicados) — RNF-03
+├── app/robots.ts                   # Bloqueia /admin, /api, preview e rotas de token — RNF-03
 └── types/
 ```
 
@@ -64,22 +69,27 @@ npx prisma migrate dev --name init
 npm run dev
 ```
 
-## Status atual (fim da sessão de 26/07/2026)
+## Status atual (sessão de 26/07/2026 — continuação)
 
-- ✅ Home, Recursos, Contato, Diagnóstico de Conformidade e Política de Privacidade — Fase 1a no ar
-- ✅ Rotas de API de Leads e Diagnóstico implementadas e testadas (`/api/leads`, `/api/diagnostico`)
-- ✅ Templates de e-mail base e padrão de e-mail best-effort (`enviarEmailsSemBloquear` em `src/lib/resend.ts`)
-- ✅ Go-live da Fase 1a concluído (Railway, DNS de `www.peix.ia.br`, Google Workspace, Resend fora do sandbox)
-- ✅ **Painel Admin — fundação (Fase 1b, RF-ADMIN-01):** schema Prisma atualizado (`admin_users` com convite/reset/lockout, `posts.autorId`, `post_status.AGENDADO`, `post_preview_tokens`); login com sessão em cookie assinado (httpOnly, RN-ADMIN-03) e lockout (RN-ADMIN-04); middleware protegendo `/admin/**`; shell autenticado (`/admin`) com navegação para Posts/Leads/Assinantes/Usuários
-- ✅ **Painel Admin — Leads (RF-ADMIN-02):** `/admin/leads` com busca (nome/e-mail/instituição), paginação e exportação em CSV (`GET /api/admin/leads/export`)
-- ✅ **Painel Admin — Assinantes (RF-ADMIN-03):** `/admin/assinantes` com filtro por status (pendente/confirmado/descadastrado), contadores e paginação
-- ✅ **Painel Admin — Usuários (RF-ADMIN-06, 07, 08):** `/admin/usuarios` — convite por e-mail (token 48h, senha nunca definida por quem convida), reenvio de convite, desativação (sem exclusão física — reativação é feita reenviando um novo convite); `/admin/ativar` (define senha e já autentica), `/admin/esqueci-senha` e `/admin/resetar-senha` (token de uso único, 1h)
-- ✅ **Painel Admin — revogação de sessão ao trocar de senha:** `AdminUser.senhaAlteradaEm` + `iat` no cookie de sessão — resetar a senha (ou ativar convite) agora derruba qualquer sessão aberta antes da troca no próximo request, mesmo com o cookie ainda "válido" (assinatura/expiração ok). Checagem autoritativa em `getAdminAtual()` (`src/lib/admin-current.ts`), que roda em Node.js — o middleware (Edge) não tem acesso ao Postgres para isso. Toda rota protegida usa `getAdminAtual()`, não só o middleware.
-- ✅ **Painel Admin — CRUD de posts (RF-ADMIN-05, RF-ADMIN-09):** `/admin/posts` — listagem com busca por título, filtro por status (rascunho/publicado) e paginação; `/admin/posts/novo` e `/admin/posts/[id]` com editor Markdown e preview ao vivo (debounced) via `POST /api/admin/posts/preview`; slug gerado a partir do título (editável manualmente) com checagem de unicidade; `publicadoEm` gravado na primeira publicação; exclusão com tratamento de erros de FK do Prisma. Sanitização de HTML sempre no backend (`src/lib/markdown.ts`, `marked` + `sanitize-html`) — nunca no cliente, mesma função será reaproveitada no blog público.
-- ⬜ Rotas de API de newsletter (subscribe/confirmar/descadastrar) — a implementar
-- ⬜ Rotas de API de posts públicas (listagem/disparo em lote) — a implementar
-- ⬜ Upload de capa (R2), link de preview assinado e agendamento de publicação (RF-ADMIN-10, 11, 12) — a implementar
+**Fase 1a** (site informativo) e **Fase 1b** (Blog + Painel Admin) estão com todo o
+escopo funcional implementado localmente (commits até `38c8d8b`). O que falta é
+infraestrutura/publicação — ver checklist no fim desta seção.
+
+- ✅ Home, Recursos, Contato, Diagnóstico de Conformidade, Política de Privacidade e Termos de Uso — Fase 1a no ar em produção
+- ✅ **Painel Admin completo (RF-ADMIN-01 a 12):** login com lockout e sessão em cookie assinado (Web Crypto/Edge), revogação de sessão ao trocar senha; CRUD de Leads/Assinantes/Usuários (convite por token, reset de senha); CRUD de posts com editor Markdown + preview sanitizado (`marked` + `sanitize-html`); **upload de capa pro Cloudflare R2 com validação por magic bytes (RF-ADMIN-10)**; **link de preview assinado com expiração pra posts não publicados (RF-ADMIN-11)**; **agendamento de publicação com job via GitHub Actions a cada 10min, disparando a newsletter automaticamente (RF-ADMIN-12)**
+- ✅ **Blog público completo (RF-BLOG-01 a 08):** listagem com filtro por categoria (`/blog`), página individual com SEO (Open Graph, Twitter Card, schema.org/Article), newsletter com double opt-in (`/api/newsletter/subscribe` + `/newsletter/confirmar`), disparo automático de e-mail aos assinantes confirmados quando um post é publicado (`src/lib/newsletter-dispatch.ts`), descadastro self-service sem login
+- ✅ **RNF-03 (SEO técnico) — adicionado nesta sessão:** `src/app/sitemap.ts` (páginas fixas + posts publicados, atualizado dinamicamente) e `src/app/robots.ts` (bloqueia `/admin`, `/api`, `/blog/preview` e rotas de token de newsletter)
+- ✅ **Bug corrigido nesta sessão:** e-mails transacionais (convite de admin, reset de senha, confirmação de newsletter, aviso de novo post, unsubscribe) e o fallback do material em PDF usavam `https://peix.ia.br` (sem `www`) hardcoded em 6 arquivos — mas só `www.peix.ia.br` tem DNS configurado (raiz sem redirecionamento, ver nota v1.5 da Arquitetura). Esses links quebrariam em produção. Centralizado em `src/lib/site.ts` (`SITE_URL`, configurável via `NEXT_PUBLIC_SITE_URL`) e aplicado em todos os pontos, incluindo `metadataBase` do layout raiz.
+
+**Checklist antes do próximo deploy:**
+
+- ⬜ Repositório local está 2 commits à frente de `origin/main` (1 de antes desta sessão + o desta sessão) — falta `git push`
+- ⬜ Aplicar em produção as migrations do R2/preview/agendamento (`prisma migrate deploy` no Railway) se ainda não aplicadas
+- ⬜ Confirmar que o secret `CRON_SECRET` do workflow `.github/workflows/publicar-agendados.yml` está cadastrado no GitHub (Settings → Secrets → Actions) — sem isso o agendamento de posts não dispara
+- ⬜ Atualizar `MATERIAL_INFORMATIVO_URL` e adicionar `NEXT_PUBLIC_SITE_URL` nas env vars de produção do Railway (o `.env` local já foi corrigido nesta sessão, mas o Railway tem seu próprio conjunto de variáveis)
 
 > **Nota de infraestrutura:** as migrations `20260726114400_admin_panel_foundation` e `20260726122442_admin_session_revogacao` foram escritas manualmente (o ambiente onde foram geradas não tem acesso de rede ao Postgres do Railway nem ao engine Linux do Prisma). Antes de rodar localmente: `npx prisma generate`, aplicar as migrations (`npx prisma migrate deploy` ou `migrate dev`) e criar o primeiro admin com `npm run seed:admin -- seuemail@peix.ia.br "senha-forte"`.
 
-Documentos de referência atualizados: `Requisitos_Site_PEIx_v1.7.md` e `Arquitetura_Tecnica_Site_PEIx_v1.5.md`.
+> **Nota desta sessão:** o ambiente de execução montou a pasta real do projeto (`C:\Projetos\peix-site`), mas `.git/index.lock` ficou travado com `EPERM` ao tentar remover (mesma limitação de rename/unlink atômico do mount já registrada aqui antes para `node_modules`) — os commits desta sessão **não foram criados automaticamente**. Rode localmente, na sua máquina: apagar `.git\index.lock` (se ainda existir) e então `git add -A && git commit -m "..." && git push`.
+
+Documentos de referência desatualizados em relação ao código — o projeto de conhecimento ainda tem `Requisitos_Site_PEIx_v1.8.md` e `Arquitetura_Tecnica_Site_PEIx_v1.6.md` sem as seções de Blog público e RNF-03; precisam de uma v1.9/v1.7 refletindo este estado.

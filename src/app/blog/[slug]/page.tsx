@@ -13,8 +13,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { NewsletterForm } from "@/components/site/NewsletterForm";
 import { PostArticle } from "@/components/site/PostArticle";
-
-const SITE_URL = "https://www.peix.ia.br";
+import { SITE_URL } from "@/lib/site";
 
 async function buscarPostPublicado(slug: string) {
   return prisma.post.findFirst({
