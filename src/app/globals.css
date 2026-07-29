@@ -97,6 +97,16 @@ body {
   --hc-border: #000000;
 }
 
+/* Logo (símbolo "P") -> troca de versão por tema, ver Logo.tsx.
+   default e high-contrast-dark têm fundo escuro -> mantém o logo branco;
+   high-contrast-light tem fundo branco -> troca para o logo preto. */
+[data-theme="high-contrast-light"] .peix-logo-default {
+  display: none;
+}
+[data-theme="high-contrast-light"] .peix-logo-hc-light {
+  display: block;
+}
+
 /* Fundos translúcidos (cards, inputs, tags) -> superfície opaca neutra */
 [data-theme^="high-contrast"] [class~="bg-amber-500/10"],
 [data-theme^="high-contrast"] [class~="bg-amber-500/5"],

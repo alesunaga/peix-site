@@ -1,15 +1,13 @@
 // src/components/site/Footer.tsx
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import { Logo } from "@/components/site/Logo";
 
 export function Footer() {
   return (
     <footer className="border-t border-white/10 px-6 py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 text-sm text-slate-400 sm:flex-row sm:justify-between">
         <div className="flex items-center gap-2 text-white">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600">
-            <Sparkles size={14} aria-hidden />
-          </span>
+          <Logo className="h-7 w-7" />
           PEIx
         </div>
 

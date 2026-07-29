@@ -1,8 +1,8 @@
 // src/components/site/Navbar.tsx
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { Logo } from "@/components/site/Logo";
 
 type NavItem =
   | { href: string; label: string; comingSoon?: false }
@@ -23,9 +23,7 @@ export function Navbar() {
         className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
       >
         <Link href="/" className="flex items-center gap-2 font-semibold text-white">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600">
-            <Sparkles size={18} aria-hidden />
-          </span>
+          <Logo className="h-8 w-8" />
           PEIx
         </Link>
 
