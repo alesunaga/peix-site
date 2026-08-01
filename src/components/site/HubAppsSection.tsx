@@ -1,5 +1,5 @@
 // src/components/site/HubAppsSection.tsx
-import { Wand2, Target, ClipboardList } from "lucide-react";
+import { Wand2, Target, ClipboardList, FileText } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 
@@ -20,6 +20,12 @@ const APPS = [
     titulo: "Relatório de Desenvolvimento com Síntese por IA",
     texto:
       "Gera a síntese narrativa do Relatório de Desenvolvimento, revisável antes do download, pronta para compartilhar com a família e a coordenação.",
+  },
+  {
+    icon: FileText,
+    titulo: "Rascunho do PAEE por IA",
+    texto:
+      "Gera o primeiro rascunho do PAEE a partir dos laudos, do PEI vigente e da Voz do Estudante — revisável em painel antes de ir para o documento oficial.",
   },
 ];
 
