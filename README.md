@@ -87,6 +87,7 @@ infraestrutura/publicação — ver checklist no fim desta seção.
 - ⬜ Aplicar em produção as migrations do R2/preview/agendamento (`prisma migrate deploy` no Railway) se ainda não aplicadas
 - ⬜ Confirmar que o secret `CRON_SECRET` do workflow `.github/workflows/publicar-agendados.yml` está cadastrado no GitHub (Settings → Secrets → Actions) — sem isso o agendamento de posts não dispara
 - ⬜ Atualizar `MATERIAL_INFORMATIVO_URL` e adicionar `NEXT_PUBLIC_SITE_URL` nas env vars de produção do Railway (o `.env` local já foi corrigido nesta sessão, mas o Railway tem seu próprio conjunto de variáveis)
+- ⬜ Adicionar `LEADS_API_TOKEN` nas env vars de produção do Railway — protege `GET /api/integrations/leads`, usada pela pipeline de clientes externa para puxar leads novos/atualizados (ver `.env.example`)
 
 > **Nota de infraestrutura:** as migrations `20260726114400_admin_panel_foundation` e `20260726122442_admin_session_revogacao` foram escritas manualmente (o ambiente onde foram geradas não tem acesso de rede ao Postgres do Railway nem ao engine Linux do Prisma). Antes de rodar localmente: `npx prisma generate`, aplicar as migrations (`npx prisma migrate deploy` ou `migrate dev`) e criar o primeiro admin com `npm run seed:admin -- seuemail@peix.ia.br "senha-forte"`.
 
