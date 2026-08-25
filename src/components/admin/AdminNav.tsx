@@ -9,12 +9,11 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FileText, Users, Mail, UserCog, LayoutDashboard, LogOut, BarChart3 } from "lucide-react";
+import { FileText, Users, Mail, UserCog, LayoutDashboard, LogOut } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const ITENS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/admin/posts", label: "Posts", icon: FileText },
   { href: "/admin/leads", label: "Leads", icon: Users },
   { href: "/admin/assinantes", label: "Assinantes", icon: Mail },
