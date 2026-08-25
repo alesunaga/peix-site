@@ -19,6 +19,7 @@ import {
   enviarAvisoRepresentante,
   enviarEmailsSemBloquear,
 } from "@/lib/resend";
+import { registrarEvento } from "@/lib/analytics";
 
 const SETE_DIAS_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -90,6 +91,12 @@ export async function POST(request: NextRequest) {
   if (!jaAtualizadoRecentemente) {
     await enviarEmailsSemBloquear([() => enviarAvisoRepresentante(lead, diagnostico)]);
   }
+
+  await registrarEvento({
+    tipo: "DIAGNOSTICO_CONCLUIDO",
+    path: "/diagnostico",
+    metadata: { categoria },
+  });
 
   return NextResponse.json(
     { pontuacao, pontuacaoMaxima, categoria, detalhes },

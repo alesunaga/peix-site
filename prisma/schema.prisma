@@ -267,3 +267,63 @@ enum AdminStatus {
 
   @@map("admin_status")
 }
+
+// ---------------------------------------------------------------------------
+// Analytics próprio — Analytics_Proprio_Site_PEIx_v1.0
+//
+// Sem cookies, sem IP/User-Agent brutos armazenados. visitanteHash é um
+// SHA-256(IP + User-Agent + data do dia + salt), calculado em
+// src/lib/analytics.ts — muda todo dia, então não permite reidentificar o
+// mesmo visitante ao longo do tempo, só contar "visitantes únicos por dia".
+// Mantém a Politica_Privacidade_PEIx §8 inalterada (nenhum cookie de
+// rastreamento, nenhum dado compartilhado com rede de anúncios).
+// ---------------------------------------------------------------------------
+
+model AnalyticsPageview {
+  id             String            @id @default(cuid())
+  path           String
+  referrer       String?
+  utmSource      String?
+  utmMedium      String?
+  utmCampaign    String?
+  visitanteHash  String
+  dispositivo    AnalyticsDispositivo @default(DESCONHECIDO)
+
+  criadoEm       DateTime          @default(now())
+
+  @@index([criadoEm])
+  @@index([path])
+  @@map("analytics_pageviews")
+}
+
+enum AnalyticsDispositivo {
+  DESKTOP
+  MOBILE
+  TABLET
+  DESCONHECIDO
+
+  @@map("analytics_dispositivo")
+}
+
+model AnalyticsEvento {
+  id            String              @id @default(cuid())
+  tipo          AnalyticsEventoTipo
+  path          String?
+  visitanteHash String?
+  metadata      Json?
+
+  criadoEm      DateTime            @default(now())
+
+  @@index([criadoEm])
+  @@index([tipo])
+  @@map("analytics_eventos")
+}
+
+enum AnalyticsEventoTipo {
+  DIAGNOSTICO_CONCLUIDO
+  FORMULARIO_ENVIADO
+  NEWSLETTER_INSCRITA
+  POST_LIDO
+
+  @@map("analytics_evento_tipo")
+}

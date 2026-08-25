@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { registrarEvento } from "@/lib/analytics";
 
 const confirmarSchema = z.object({ token: z.string().min(1) });
 
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
       where: { id: assinante.id },
       data: { status: "CONFIRMADO", confirmadoEm: new Date() },
     });
+    await registrarEvento({ tipo: "NEWSLETTER_INSCRITA", path: "/newsletter/confirmar" });
   }
 
   return NextResponse.json({ ok: true });

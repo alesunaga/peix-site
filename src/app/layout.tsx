@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
+import { AnalyticsBeacon } from "@/components/site/AnalyticsBeacon";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -43,6 +45,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="peix-theme-init" strategy="beforeInteractive">
           {THEME_INIT_SCRIPT}
         </Script>
+        <Suspense fallback={null}>
+          <AnalyticsBeacon />
+        </Suspense>
         {children}
       </body>
     </html>
