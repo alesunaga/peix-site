@@ -32,6 +32,19 @@ const LINHAS: Linha[] = [
     peix: "yes",
   },
   { recurso: "Monitoramento contra uso indevido da IA", planilha: "no", generico: "no", peix: "yes" },
+  {
+    recurso: "Agenda de reuniões com evidência automática no relatório",
+    planilha: "no",
+    generico: "no",
+    peix: "yes",
+  },
+  { recurso: "Catálogo de condições com código CID-10", planilha: "no", generico: "no", peix: "yes" },
+  {
+    recurso: "Relatório Gerencial da escola em um clique",
+    planilha: "no",
+    generico: "no",
+    peix: "yes",
+  },
 ];
 
 function StatusIcon({ status }: { status: Status }) {
