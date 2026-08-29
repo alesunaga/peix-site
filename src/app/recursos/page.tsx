@@ -5,6 +5,7 @@ import { PeiSectionsGrid } from "@/components/site/PeiSectionsGrid";
 import { VozDoEstudanteSection } from "@/components/site/VozDoEstudanteSection";
 import { HubAppsSection } from "@/components/site/HubAppsSection";
 import { SegurancaSection } from "@/components/site/SegurancaSection";
+import { SegurancaFaqSection } from "@/components/site/SegurancaFaqSection";
 import { FinalCta } from "@/components/site/FinalCta";
 import { Footer } from "@/components/site/Footer";
 
@@ -24,6 +25,7 @@ export default function RecursosPage() {
         <VozDoEstudanteSection />
         <HubAppsSection />
         <SegurancaSection />
+        <SegurancaFaqSection />
         <FinalCta />
       </main>
       <Footer />

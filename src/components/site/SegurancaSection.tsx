@@ -15,7 +15,7 @@ const PONTOS = [
     icon: EyeOff,
     titulo: "Pseudoanonimização antes da IA",
     texto:
-      "Nomes e RAs são removidos antes de qualquer processamento em IA externa, em conformidade com o Art. 11 da LGPD.",
+      "Nomes e RAs são removidos antes de qualquer processamento em IA externa, em conformidade com o Art. 11 da LGPD. O uso da IA é opcional: cada escola liga ou desliga quando quiser, e quando está desligada, nenhuma informação sai para serviços externos.",
   },
   {
     icon: FileClock,
