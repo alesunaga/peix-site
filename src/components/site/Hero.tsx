@@ -1,5 +1,5 @@
 // src/components/site/Hero.tsx
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Quote, Sparkles } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
@@ -24,22 +24,29 @@ export function Hero() {
           </div>
 
           <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
-            O PEI deixou de ser{" "}
+            Ninguém, sozinho, conhece esse aluno{" "}
             <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              uma sobrecarga.
+              por inteiro.
             </span>
           </h1>
 
           <p className="mt-6 max-w-lg text-lg text-slate-300">
-            O PEIx transforma a gestão do Plano Educacional Individualizado em uma
-            rotina leve. Inteligência artificial que devolve horas ao professor e
-            garante a conformidade legal da sua escola — sem planilhas, Word ou
-            grupos de WhatsApp.
+            A professora vê uma parte. O AEE vê outra. O acompanhante vê o dia a
+            dia. A família vê o que a escola nunca vê. E o próprio estudante sabe
+            coisas que ninguém perguntou.
+          </p>
+
+          <p className="mt-4 max-w-lg text-lg text-slate-300">
+            O PEIx reúne tudo isso num{" "}
+            <strong className="font-semibold text-white">
+              modelo vivo do aluno
+            </strong>{" "}
+            — que se atualiza o ano inteiro, não uma vez por ano.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
             <ButtonLink href="/contato" withArrow>
-              Agendar demonstração
+              Ver o sistema por dentro
             </ButtonLink>
             <ButtonLink href="/diagnostico" variant="accent" withArrow>
               Diagnóstico gratuito
@@ -50,62 +57,75 @@ export function Hero() {
           </div>
         </div>
 
-        <DashboardPreview />
+        <VozPreview />
       </div>
     </section>
   );
 }
 
-function DashboardPreview() {
+/**
+ * Ilustração da tese da página: o que o estudante declara sobre si alimenta o
+ * que o professor recebe como sugestão. Dados fictícios, no mesmo espírito da
+ * Escola Demo — nenhum número de resultado é afirmado aqui (ver RN-HOME-02).
+ */
+function VozPreview() {
   return (
     <Card className="p-6 shadow-2xl shadow-indigo-950/50">
       <div className="mb-4 flex items-center gap-2">
         <span className="h-3 w-3 rounded-full bg-red-500/70" />
         <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
         <span className="h-3 w-3 rounded-full bg-green-500/70" />
-        <span className="ml-2 text-xs text-slate-400">peix.app / pei / aluno-2048</span>
+        <span className="ml-2 text-xs text-slate-400">
+          peix.app / aluno / voz-do-estudante
+        </span>
       </div>
 
-      <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-4">
-        <div className="space-y-1">
-          {["Identificação", "Metas SMART", "Adaptações", "Família"].map((item, i) => (
-            <div
-              key={item}
-              className={`rounded-lg px-3 py-2 text-sm ${
-                i === 1
-                  ? "bg-indigo-600 text-white"
-                  : "text-slate-400 hover:bg-white/5"
-              }`}
-            >
-              {item}
+      <div className="space-y-3">
+        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <Quote size={14} className="text-indigo-400" aria-hidden />
+            <p className="text-xs font-semibold uppercase tracking-wide text-indigo-400">
+              O que a aluna contou
+            </p>
+          </div>
+
+          <dl className="space-y-2.5 text-sm">
+            <div>
+              <dt className="text-xs text-slate-400">Aprende melhor</dt>
+              <dd className="text-white">Fazendo</dd>
             </div>
-          ))}
+            <div>
+              <dt className="text-xs text-slate-400">Interesses</dt>
+              <dd className="text-white">Cavalos, desenho</dd>
+            </div>
+            <div>
+              <dt className="text-xs text-slate-400">Pediu para</dt>
+              <dd className="text-white">Sentar perto da professora</dd>
+            </div>
+          </dl>
+
+          <p className="mt-4 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
+            Escuta registrada por prancha de comunicação
+          </p>
         </div>
 
-        <div className="space-y-3">
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <p className="mb-2 text-sm font-medium text-white">Meta SMART — Leitura</p>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-              <div className="h-full w-[72%] rounded-full bg-indigo-500" />
-            </div>
-            <p className="mt-1 text-xs text-slate-400">72% concluída</p>
-          </div>
+        <p aria-hidden className="text-center text-xs text-slate-500">
+          ↓
+        </p>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-              <p className="text-lg font-semibold text-white">14</p>
-              <p className="text-xs text-slate-400">Atividades geradas</p>
-            </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-              <p className="text-lg font-semibold text-white">37</p>
-              <p className="text-xs text-slate-400">Alunos ativos</p>
-            </div>
+        <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-4">
+          <div className="mb-2 flex items-center gap-2">
+            <Sparkles size={14} className="text-indigo-300" aria-hidden />
+            <p className="text-xs font-semibold uppercase tracking-wide text-indigo-300">
+              Sugestão para a professora de matemática
+            </p>
           </div>
-
-          <div className="flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3 text-xs text-emerald-300">
-            <ShieldCheck size={14} aria-hidden />
-            Versão imutável registrada — conforme Decreto 12.773/2025
-          </div>
+          <p className="text-sm text-white">
+            Contagem e agrupamento com miniaturas de cavalos
+          </p>
+          <p className="mt-1 text-xs text-slate-400">
+            A professora não participou da escuta. A aluna é que contou.
+          </p>
         </div>
       </div>
     </Card>

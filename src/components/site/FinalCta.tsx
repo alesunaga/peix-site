@@ -20,12 +20,12 @@ export function FinalCta() {
           </span>
         </h2>
         <p className="mt-4 text-lg text-slate-300">
-          Agende uma demonstração guiada com os dados fictícios da Escola Demo e
-          veja o PEIx funcionando na prática em poucos minutos.
+          Trinta minutos sobre a Escola Demo, com quem construiu o sistema. Sem
+          apresentação de vendas — o produto na tela e as suas perguntas.
         </p>
         <div className="mt-8 flex justify-center">
           <ButtonLink href="/contato" withArrow>
-            Agendar demonstração
+            Ver o sistema por dentro
           </ButtonLink>
         </div>
       </div>

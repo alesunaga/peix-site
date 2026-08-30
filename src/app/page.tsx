@@ -2,12 +2,11 @@
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
 import { ProblemSection } from "@/components/site/ProblemSection";
-import { InversionSection } from "@/components/site/InversionSection";
-import { SolutionSection } from "@/components/site/SolutionSection";
-import { ComparisonSection } from "@/components/site/ComparisonSection";
-import { FlowSection } from "@/components/site/FlowSection";
+import { ViradaSection } from "@/components/site/ViradaSection";
+import { VozEstudanteHomeSection } from "@/components/site/VozEstudanteHomeSection";
+import { IaSection } from "@/components/site/IaSection";
+import { PortasSection } from "@/components/site/PortasSection";
 import { ImplantationSection } from "@/components/site/ImplantationSection";
-import { DifferentialSection } from "@/components/site/DifferentialSection";
 import { FaqSection } from "@/components/site/FaqSection";
 import { FinalCta } from "@/components/site/FinalCta";
 import { Footer } from "@/components/site/Footer";
@@ -19,12 +18,11 @@ export default function HomePage() {
       <main>
         <Hero />
         <ProblemSection />
-        <InversionSection />
-        <SolutionSection />
-        <ComparisonSection />
-        <FlowSection />
+        <ViradaSection />
+        <VozEstudanteHomeSection />
+        <IaSection />
+        <PortasSection />
         <ImplantationSection />
-        <DifferentialSection />
         <FaqSection />
         <FinalCta />
       </main>

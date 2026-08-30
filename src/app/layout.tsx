@@ -10,9 +10,9 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "PEIx — Gestão do Plano Educacional Individualizado",
+  title: "PEIx — Um modelo vivo do aluno",
   description:
-    "O PEIx ajuda escolas a elaborar, acompanhar e revisar o PEI, em conformidade com o Decreto nº 12.773/2025.",
+    "O PEIx reúne o que professores, AEE, acompanhante, família e o próprio estudante sabem sobre o aluno num plano que se atualiza o ano inteiro. Em conformidade com o Decreto nº 12.773/2025.",
 };
 
 // Aplica o tema de alto contraste salvo (ou a preferência do sistema) antes da

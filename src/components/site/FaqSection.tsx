@@ -7,29 +7,19 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 
 const PERGUNTAS = [
   {
-    pergunta: "O PEIx atende às exigências do Decreto nº 12.773/2025?",
+    pergunta: "Os dados do meu aluno vão para uma empresa de inteligência artificial?",
     resposta:
-      "Sim. O PEI é estruturado nas 7 seções exigidas pela legislação, com versionamento automático e imutável — cada revisão fica registrada, pronta para fiscalização.",
+      "O conteúdo pedagógico sim; a identidade não. Nome e registro do aluno viram códigos antes de qualquer chamada, e o registro de auditoria guarda quem pediu o quê e quando, sem o conteúdo. A escola também pode operar com a IA desligada, sem nenhuma chamada externa.",
   },
   {
-    pergunta: "Como o sistema protege os dados sensíveis dos alunos?",
+    pergunta: "Ver o aluno por inteiro não é montar um dossiê sobre ele?",
     resposta:
-      "Nomes e RAs são removidos (pseudoanonimização) antes de qualquer processamento em IA externa, em conformidade com o Art. 11 da LGPD.",
+      "Visão completa não significa acesso completo. Cada perfil vê o que precisa para agir: o acompanhante não vê laudo, o professor regente não vê documento, a família vê o próprio filho. A visão inteira existe para o aluno — não para a escola.",
   },
   {
-    pergunta: "Os professores realmente vão adotar mais uma ferramenta?",
+    pergunta: "Precisamos do laudo para começar?",
     resposta:
-      "O PEIx foi desenhado para que o professor ganhe tempo no primeiro dia de uso — a adoção é consequência do valor imediato, não de uma obrigação.",
-  },
-  {
-    pergunta: "As adaptações geradas pela IA são genéricas ou individuais?",
-    resposta:
-      "Individuais. Atividades, metas e relatórios são gerados a partir do PEI específico de cada aluno — nunca de diagnósticos genéricos.",
-  },
-  {
-    pergunta: "O PEI é obrigatório também em escolas particulares?",
-    resposta:
-      "Sim. O Decreto nº 12.773/2025 e a Lei Brasileira de Inclusão (Lei nº 13.146/2015) se aplicam a escolas públicas e privadas.",
+      "Não. A elegibilidade segue a Nota Técnica nº 04/2014 e a Lei nº 14.254/2021: a criança não espera o diagnóstico para ter um plano.",
   },
 ];
 
@@ -41,7 +31,7 @@ export function FaqSection() {
       <div className="text-center">
         <Eyebrow>Dúvidas Frequentes</Eyebrow>
         <h2 className="text-3xl font-bold text-white sm:text-4xl">
-          Objeções técnicas e jurídicas, resolvidas
+          As perguntas que toda escola faz
         </h2>
       </div>
 

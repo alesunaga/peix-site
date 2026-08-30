@@ -64,7 +64,7 @@ export function Navbar() {
             Acessar plataforma
           </ButtonLink>
           <ButtonLink href="/contato" className="text-sm">
-            Agendar Demo
+            Ver o sistema
           </ButtonLink>
         </div>
       </nav>
