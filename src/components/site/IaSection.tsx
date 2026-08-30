@@ -50,7 +50,7 @@ export function IaSection() {
         <p className="text-xl font-semibold leading-snug text-white sm:text-2xl">
           A IA estrutura e acelera. A{" "}
           <span className="text-indigo-400">autoria pedagógica</span> continua com
-          quem conhece o aluno.
+          os profissionais que conhecem o aluno.
         </p>
       </Card>
     </section>

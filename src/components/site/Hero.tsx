@@ -33,7 +33,7 @@ export function Hero() {
           <p className="mt-6 max-w-lg text-lg text-slate-300">
             A professora vê uma parte. O AEE vê outra. O acompanhante vê o dia a
             dia. A família vê o que a escola nunca vê. E o próprio estudante sabe
-            coisas que ninguém perguntou.
+            coisas que ninguém pensou em perguntar.
           </p>
 
           <p className="mt-4 max-w-lg text-lg text-slate-300">
@@ -89,18 +89,24 @@ function VozPreview() {
             </p>
           </div>
 
-          <dl className="space-y-2.5 text-sm">
+          <dl className="space-y-3 text-sm">
             <div>
-              <dt className="text-xs text-slate-400">Aprende melhor</dt>
-              <dd className="text-white">Fazendo</dd>
+              <dt className="text-xs italic text-slate-400">
+                Como você sente que aprende melhor?
+              </dt>
+              <dd className="mt-0.5 text-white">Fazendo</dd>
             </div>
             <div>
-              <dt className="text-xs text-slate-400">Interesses</dt>
-              <dd className="text-white">Cavalos, desenho</dd>
+              <dt className="text-xs italic text-slate-400">
+                Quais são seus interesses?
+              </dt>
+              <dd className="mt-0.5 text-white">Cavalos, desenho</dd>
             </div>
             <div>
-              <dt className="text-xs text-slate-400">Pediu para</dt>
-              <dd className="text-white">Sentar perto da professora</dd>
+              <dt className="text-xs italic text-slate-400">
+                O que você gostaria que fosse feito?
+              </dt>
+              <dd className="mt-0.5 text-white">Sentar perto da professora</dd>
             </div>
           </dl>
 

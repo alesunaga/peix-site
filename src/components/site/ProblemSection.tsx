@@ -7,12 +7,12 @@ const OLHARES = [
   {
     icon: Users,
     quem: "A professora regente",
-    texto: "Vê ele numa sala com mais vinte e nove.",
+    texto: "Vê o aluno numa sala com mais vinte e nove.",
   },
   {
     icon: BookOpen,
     quem: "O professor de AEE",
-    texto: "Vê ele sozinho, na sala de recursos.",
+    texto: "Vê o aluno sozinho, na sala de recursos.",
   },
   {
     icon: Hand,
@@ -28,7 +28,7 @@ const OLHARES = [
   {
     icon: MessageCircle,
     quem: "O próprio estudante",
-    texto: "Sabe como aprende melhor — e quase nunca é perguntado.",
+    texto: "Sabe como aprende melhor — e quase nunca perguntam a ele.",
   },
 ];
 

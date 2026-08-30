@@ -20,7 +20,7 @@ export function ViradaSection() {
         <p>
           São seis, dez horas de trabalho coletivo por documento. Foi esse custo
           — não o ritmo do aluno — que definiu o calendário do PEI. O resultado é
-          que quase todo PEI está desatualizado quase o tempo todo: uma
+          que quase todo PEI está desatualizado boa parte do tempo: uma
           fotografia de março orientando decisões de setembro.
         </p>
         <p>
@@ -28,7 +28,7 @@ export function ViradaSection() {
           fechava na conta de horas de escola nenhuma.
         </p>
         <p className="text-white">
-          O PEIx derruba o custo de revisar. E quando revisar deixa de doer, o
+          O PEIx derruba o custo de revisar. E quando a revisão deixa de doer, o
           PEI para de ser documento e vira outra coisa.
         </p>
       </div>

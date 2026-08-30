@@ -1,5 +1,5 @@
 // src/components/site/PortasSection.tsx
-import { Building2, ClipboardCheck, GraduationCap, Heart } from "lucide-react";
+import { Building2, ClipboardCheck, GraduationCap, Heart, MessageCircle } from "lucide-react";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 
@@ -8,7 +8,7 @@ const PORTAS = [
     icon: Building2,
     perfil: "Direção",
     texto:
-      "Quando pedirem o documento, ele existe. Relatório da escola inteira por período, com diagnóstico, ciência da família, apoio e reuniões registradas.",
+      "Você pede o retrato da escola inteira num período e ele sai pronto: diagnóstico, ciência da família, apoio e reuniões, tudo registrado. Quando a fiscalização chegar, o documento já existe.",
   },
   {
     icon: ClipboardCheck,
@@ -26,7 +26,7 @@ const PORTAS = [
     icon: Heart,
     perfil: "Família",
     texto:
-      "Um lugar para acompanhar sem precisar pedir: o que seu filho fez, em que áreas avançou, o que está em foco agora.",
+      "Você tem um lugar para acompanhar sem precisar pedir: o que seu filho fez, em que áreas avançou e o que está em foco agora.",
   },
 ];
 
@@ -34,9 +34,9 @@ export function PortasSection() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-24">
       <div className="max-w-2xl">
-        <Eyebrow>Quatro portas</Eyebrow>
+        <Eyebrow>Cinco pontos de vista</Eyebrow>
         <h2 className="text-3xl font-bold text-white sm:text-4xl">
-          Cada pessoa da escola entra por um motivo diferente
+          Cada pessoa entra por um motivo diferente
         </h2>
       </div>
 
@@ -52,6 +52,23 @@ export function PortasSection() {
             <dd className="text-sm text-slate-400">{texto}</dd>
           </Card>
         ))}
+
+        {/* O estudante fecha a seção ocupando a largura inteira: é o único
+            ponto de vista que não usa o sistema, e é o motivo dele existir. */}
+        <Card className="border-indigo-500/30 bg-indigo-500/5 p-6 sm:col-span-2">
+          <dt className="mb-3 flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/25 text-indigo-300">
+              <MessageCircle size={18} aria-hidden />
+            </span>
+            <span className="font-semibold text-white">Estudante</span>
+          </dt>
+          <dd className="text-sm text-slate-300">
+            Você é ouvido — sobre como aprende melhor, do que
+            gosta, o que ajudaria na sala. O que você responde fica registrado
+            no seu plano e chega aos professores que dão aula para você,
+            inclusive aos que nunca conversaram sobre isso com você.
+          </dd>
+        </Card>
       </dl>
     </section>
   );

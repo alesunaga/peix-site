@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/Card";
 
 const PERGUNTAS = [
   "Como você acha que aprende melhor?",
-  "O que te ajudaria na sala?",
+  "O que ajudaria na sala de aula?",
   "O que você quer fazer quando crescer?",
 ];
 
@@ -51,11 +51,11 @@ export function VozEstudanteHomeSection() {
         <div className="mx-auto mt-12 grid max-w-5xl gap-6 md:grid-cols-2">
           <div>
             <h3 className="text-lg font-semibold text-white">
-              A escuta fica registrada — e o modo dela também
+              A escuta fica registrada — e o modo como ela foi feita, também
             </h3>
             <p className="mt-3 text-slate-300">
-              O PEIx registra a resposta do estudante e registra também como ela
-              foi colhida. Ou que ainda não foi colhida, e por quê.
+              O PEIx registra a resposta do estudante e também como ela foi
+              colhida — ou que ainda não foi colhida, e por quê.
             </p>
             <ul className="mt-5 flex flex-wrap gap-2">
               {MEIOS.map((meio) => (

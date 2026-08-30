@@ -28,7 +28,7 @@ const ETAPAS = [
     numero: "4",
     titulo: "Treinamento",
     texto:
-      "Treinamento online ao vivo para Gestor, Professor AEE, Regente e Acompanhantes, com gravação disponível para consulta posterior.",
+      "Treinamento online ao vivo para Gestor, Professor AEE, Regente e Acompanhante, com gravação disponível para consulta posterior.",
   },
   {
     icon: PlayCircle,

@@ -1,6 +1,7 @@
 // src/app/page.tsx
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
+import { DefinicaoSection } from "@/components/site/DefinicaoSection";
 import { ProblemSection } from "@/components/site/ProblemSection";
 import { ViradaSection } from "@/components/site/ViradaSection";
 import { VozEstudanteHomeSection } from "@/components/site/VozEstudanteHomeSection";
@@ -17,6 +18,7 @@ export default function HomePage() {
       <Navbar />
       <main>
         <Hero />
+        <DefinicaoSection />
         <ProblemSection />
         <ViradaSection />
         <VozEstudanteHomeSection />
