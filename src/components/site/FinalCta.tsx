@@ -20,8 +20,8 @@ export function FinalCta() {
           </span>
         </h2>
         <p className="mt-4 text-lg text-slate-300">
-          Trinta minutos sobre a Escola Demo, com quem construiu o sistema. Sem
-          apresentação de vendas — o produto na tela e as suas perguntas.
+          Agende uma conversa de 30 minutos para ver o sistema. Sem apresentação
+          de vendas — o produto na tela e as suas perguntas.
         </p>
         <div className="mt-8 flex justify-center">
           <ButtonLink href="/contato" withArrow>
