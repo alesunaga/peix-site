@@ -92,9 +92,11 @@ function VozPreview() {
           <dl className="space-y-3 text-sm">
             <div>
               <dt className="text-xs italic text-slate-400">
-                Como você sente que aprende melhor?
+                O que ajuda você a entender melhor?
               </dt>
-              <dd className="mt-0.5 text-white">Fazendo</dd>
+              <dd className="mt-0.5 text-white">
+                Fazendo, com o passo a passo escrito do lado
+              </dd>
             </div>
             <div>
               <dt className="text-xs italic text-slate-400">

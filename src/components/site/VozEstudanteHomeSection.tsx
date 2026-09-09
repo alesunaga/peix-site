@@ -2,13 +2,22 @@
 //
 // Seção da Home (RF-HOME-06). Não confundir com VozDoEstudanteSection.tsx, que
 // é a versão de detalhamento técnico usada na página Recursos.
+//
+// Atualizada em v1.12.1 para acompanhar o instrumento VE-2026 (Requisitos
+// §17.2.1): saiu a pergunta sobre estilo de aprendizagem (sem sustentação
+// empírica), entraram forças e meta pessoal, e o parágrafo de devolutiva
+// fecha o ciclo de escuta. O fechamento "Nada sobre ele, sem ele" foi mantido
+// por decisão do fundador — é o mais forte da seção.
+import Link from "next/link";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Card } from "@/components/ui/Card";
 
 const PERGUNTAS = [
-  "Como você acha que aprende melhor?",
-  "O que ajudaria na sala de aula?",
-  "O que você quer fazer quando crescer?",
+  "O que você faz bem?",
+  "Do que você gosta?",
+  "O que te ajuda a entender?",
+  "O que é difícil pra você na escola?",
+  "O que você quer conseguir este ano?",
 ];
 
 const MEIOS = [
@@ -38,11 +47,13 @@ export function VozEstudanteHomeSection() {
           </h2>
         </div>
 
-        <ul className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-3">
+        <ul className="mx-auto mt-10 grid max-w-5xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {PERGUNTAS.map((pergunta) => (
             <li key={pergunta}>
-              <Card className="h-full p-6">
-                <p className="text-lg leading-snug text-white">{pergunta}</p>
+              <Card className="h-full p-4">
+                <p className="text-sm leading-snug text-white sm:text-base">
+                  {pergunta}
+                </p>
               </Card>
             </li>
           ))}
@@ -55,7 +66,8 @@ export function VozEstudanteHomeSection() {
             </h3>
             <p className="mt-3 text-slate-300">
               O PEIx registra a resposta do estudante e também como ela foi
-              colhida — ou que ainda não foi colhida, e por quê.
+              colhida — ou que ainda não foi colhida, e por quê: a justificativa
+              é obrigatória, a escuta nunca pula a etapa em silêncio.
             </p>
             <ul className="mt-5 flex flex-wrap gap-2">
               {MEIOS.map((meio) => (
@@ -74,16 +86,32 @@ export function VozEstudanteHomeSection() {
               O que o aluno diz não fica guardado num campo
             </h3>
             <p className="mt-3 text-slate-300">
-              Entra no que o sistema considera ao sugerir metas e atividades para
-              ele. Uma criança que disse gostar de cavalos passa a receber
-              atividades com cavalos — em aulas de professores com quem ela nunca
-              conversou sobre isso.
+              Entra no que o sistema considera ao sugerir metas e atividades
+              para ele — citando a frase do próprio aluno, nunca um interesse
+              que ele não declarou. Uma criança que disse gostar de cavalos
+              passa a receber atividades com cavalos — em aulas de professores
+              com quem ela nunca conversou sobre isso.
             </p>
           </div>
         </div>
 
-        <p className="mx-auto mt-14 max-w-3xl border-y border-white/10 py-8 text-center text-2xl font-semibold text-white sm:text-3xl">
+        <p className="mx-auto mt-10 max-w-3xl text-center text-slate-300">
+          E o ciclo se fecha: o sistema registra o que mudou no plano por
+          causa dessa escuta — e devolve ao estudante o que aconteceu com o
+          que ele disse.
+        </p>
+
+        <p className="mx-auto mt-8 max-w-3xl border-y border-white/10 py-8 text-center text-2xl font-semibold text-white sm:text-3xl">
           Nada sobre ele, sem ele.
+        </p>
+
+        <p className="mt-6 text-center">
+          <Link
+            href="/contato"
+            className="text-sm font-medium text-indigo-400 underline underline-offset-4 hover:text-indigo-300"
+          >
+            Ver a Voz do Estudante funcionando na Escola Demo →
+          </Link>
         </p>
       </div>
     </section>
