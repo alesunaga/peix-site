@@ -23,11 +23,10 @@ export const metadata: Metadata = {
     url: "/",
     title: "PEIx — Gestão da Inclusão Pedagógica",
     description:
-      "Um modelo vivo do aluno: professores, AEE, acompanhante, família e o próprio estudante num só plano, atualizado o ano inteiro. Em conformidade com o Decreto nº 12.773/2025.",
+      "Professores, AEE, família e o próprio aluno num só plano, atualizado o ano inteiro. Conforme o Decreto nº 12.773/2025.",
     images: [
       {
         url: "/og-image.jpg",
-        type: "image/jpeg",
         width: 1200,
         height: 630,
         alt: "PEIx — Gestão da Inclusão Pedagógica",
