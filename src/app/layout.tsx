@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     "O PEIx reúne o que professores, AEE, acompanhante, família e o próprio estudante sabem sobre o aluno num plano que se atualiza o ano inteiro. Em conformidade com o Decreto nº 12.773/2025.",
   // Prévia ao colar o link no WhatsApp, redes sociais e e-mail: imagem grande
-  // 1200x630 (public/og-image.png). Páginas com openGraph próprio (ex.: posts do
+  // 1200x630 (public/og-image.jpg). Páginas com openGraph próprio (ex.: posts do
   // blog) substituem este bloco inteiro — lá a imagem precisa ser declarada.
   openGraph: {
     type: "website",
@@ -26,7 +26,8 @@ export const metadata: Metadata = {
       "Um modelo vivo do aluno: professores, AEE, acompanhante, família e o próprio estudante num só plano, atualizado o ano inteiro. Em conformidade com o Decreto nº 12.773/2025.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.jpg",
+        type: "image/jpeg",
         width: 1200,
         height: 630,
         alt: "PEIx — Gestão da Inclusão Pedagógica",
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     title: "PEIx — Gestão da Inclusão Pedagógica",
     description:
       "Um modelo vivo do aluno: o plano individual de cada estudante, atualizado o ano inteiro por toda a equipe, pela família e pelo próprio aluno.",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
 };
 

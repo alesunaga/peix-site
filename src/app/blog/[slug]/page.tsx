@@ -42,13 +42,13 @@ export async function generateMetadata({
       description: post.resumo,
       url,
       publishedTime: post.publicadoEm?.toISOString(),
-      images: [{ url: post.imagemCapaUrl ?? "/og-image.png" }],
+      images: [{ url: post.imagemCapaUrl ?? "/og-image.jpg" }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.titulo,
       description: post.resumo,
-      images: [post.imagemCapaUrl ?? "/og-image.png"],
+      images: [post.imagemCapaUrl ?? "/og-image.jpg"],
     },
   };
 }
