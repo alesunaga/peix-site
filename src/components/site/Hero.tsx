@@ -1,7 +1,7 @@
 // src/components/site/Hero.tsx
-import { ShieldCheck, Quote, Sparkles } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { AlunoOrbita } from "@/components/site/AlunoOrbita";
 
 export function Hero() {
   return (
@@ -57,85 +57,8 @@ export function Hero() {
           </div>
         </div>
 
-        <VozPreview />
+        <AlunoOrbita />
       </div>
     </section>
-  );
-}
-
-/**
- * Ilustração da tese da página: o que o estudante declara sobre si alimenta o
- * que o professor recebe como sugestão. Dados fictícios, no mesmo espírito da
- * Escola Demo — nenhum número de resultado é afirmado aqui (ver RN-HOME-02).
- */
-function VozPreview() {
-  return (
-    <Card className="p-6 shadow-2xl shadow-indigo-950/50">
-      <div className="mb-4 flex items-center gap-2">
-        <span className="h-3 w-3 rounded-full bg-red-500/70" />
-        <span className="h-3 w-3 rounded-full bg-yellow-500/70" />
-        <span className="h-3 w-3 rounded-full bg-green-500/70" />
-        <span className="ml-2 text-xs text-slate-400">
-          peix.app / aluno / voz-do-estudante
-        </span>
-      </div>
-
-      <div className="space-y-3">
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-          <div className="mb-3 flex items-center gap-2">
-            <Quote size={14} className="text-indigo-400" aria-hidden />
-            <p className="text-xs font-semibold uppercase tracking-wide text-indigo-400">
-              O que a aluna contou
-            </p>
-          </div>
-
-          <dl className="space-y-3 text-sm">
-            <div>
-              <dt className="text-xs italic text-slate-400">
-                O que ajuda você a entender melhor?
-              </dt>
-              <dd className="mt-0.5 text-white">
-                Fazendo, com o passo a passo escrito do lado
-              </dd>
-            </div>
-            <div>
-              <dt className="text-xs italic text-slate-400">
-                Quais são seus interesses?
-              </dt>
-              <dd className="mt-0.5 text-white">Cavalos, desenho</dd>
-            </div>
-            <div>
-              <dt className="text-xs italic text-slate-400">
-                O que você gostaria que fosse feito?
-              </dt>
-              <dd className="mt-0.5 text-white">Sentar perto da professora</dd>
-            </div>
-          </dl>
-
-          <p className="mt-4 inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">
-            Escuta registrada por prancha de comunicação
-          </p>
-        </div>
-
-        <p aria-hidden className="text-center text-xs text-slate-500">
-          ↓
-        </p>
-
-        <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/10 p-4">
-          <div className="mb-2 flex items-center gap-2">
-            <Sparkles size={14} className="text-indigo-300" aria-hidden />
-            <p className="text-xs font-semibold uppercase tracking-wide text-indigo-300">
-              Sugestão para a professora de matemática
-            </p>
-          </div>
-          <p className="text-sm text-white">
-            Contagem e agrupamento com miniaturas de cavalos
-          </p>
-          <p className="mt-1 text-xs text-slate-400">
-            A professora não participou da escuta. A aluna é que contou.
-          </p>
-        </div>
-      </div>
-    </Card>
   );
 }

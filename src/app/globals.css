@@ -375,3 +375,55 @@ body {
 [data-theme^="high-contrast"] .post-preview hr {
   border-color: var(--hc-border) !important;
 }
+
+/* ============================================================
+   MODELO ORBITAL 3D (Hero) — ver src/components/site/AlunoOrbita.tsx
+   A posição dos pontos é calculada em JS a cada quadro; aqui ficam só o
+   estilo das linhas, da caixa de texto e o alto contraste.
+   ============================================================ */
+
+.orbit-line {
+  fill: none;
+  stroke: rgba(165, 180, 252, 0.4);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.orbit-line-dashed {
+  stroke-dasharray: 4 5;
+}
+
+.orbit-line-faint {
+  stroke: rgba(165, 180, 252, 0.2);
+}
+
+/* Alto contraste: linhas sólidas na cor de texto do tema; o aluno no centro
+   usa o acento do tema (como os demais botões primários). */
+[data-theme^="high-contrast"] .orbit-line,
+[data-theme^="high-contrast"] .orbit-line-faint {
+  stroke: var(--hc-text-3);
+}
+
+[data-theme^="high-contrast"] .orbit-center {
+  background: var(--hc-accent) !important;
+  color: var(--hc-accent-contrast) !important;
+  box-shadow: none !important;
+}
+
+/* Caixa de texto que aparece junto do ponto sob o mouse/foco */
+.orbit-tip {
+  background-color: #0b0a1f;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme^="high-contrast"] .orbit-tip {
+  background-color: var(--hc-surface);
+  border-color: var(--hc-border);
+}
+
+/* Alto contraste: os pontos em órbita usam a superfície e a borda do tema */
+[data-theme^="high-contrast"] .orbit-stage button:not(.orbit-center) {
+  background-color: var(--hc-surface) !important;
+  border-color: var(--hc-border) !important;
+  color: var(--hc-text) !important;
+}
