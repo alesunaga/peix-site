@@ -32,6 +32,19 @@ export async function generateMetadata({
 
   const url = `${SITE_URL}/blog/${post.slug}`;
 
+  // Prévia de compartilhamento: com capa, usa a versão leve servida pelo
+  // próprio domínio (rota ./og — JPEG 1200×630); sem capa, a imagem padrão.
+  // Largura e altura declaradas para o WhatsApp montar a prévia grande.
+  const imagemOg = {
+    url: post.imagemCapaUrl
+      ? `${url}/og?v=${post.atualizadoEm.getTime()}`
+      : `${SITE_URL}/og-peix.jpg`,
+    width: 1200,
+    height: 630,
+    type: "image/jpeg",
+    alt: post.titulo,
+  };
+
   return {
     title: `${post.titulo} — Blog PEIx`,
     description: post.resumo,
@@ -42,13 +55,13 @@ export async function generateMetadata({
       description: post.resumo,
       url,
       publishedTime: post.publicadoEm?.toISOString(),
-      images: [{ url: post.imagemCapaUrl ?? "/og-peix.jpg" }],
+      images: [imagemOg],
     },
     twitter: {
       card: "summary_large_image",
       title: post.titulo,
       description: post.resumo,
-      images: [post.imagemCapaUrl ?? "/og-peix.jpg"],
+      images: [imagemOg.url],
     },
   };
 }
